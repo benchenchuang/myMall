@@ -1,1 +1,51 @@
-<h1><%= title %></h1>
+<%- include('./components/header.ejs') %>
+<style>
+  body{
+      padding: 0;
+      margin: 0;
+      background: #f9f9f9;
+  }
+  .error_page{
+      text-align: center;
+  }
+  .error_page img{
+      max-width: 100%;
+  }
+</style>
+    <div class="error_page">
+        <!-- <img src="/images/404.png"> -->
+        <pre>
+                .----.
+             _.'__    `.
+         .--($)($$)---/#\
+       .' @          /###\
+       :         ,   #####
+        `-..__.-' _.-\###/
+              `;_:    `"'
+            .'"""""`.
+           /,  ya ,\\
+          //  404!  \\
+          `-._______.-'
+          ___`. | .'___
+         (______|______)
+          </pre>
+        <p><span class="count"></span>秒后返回<a href="/admin">[ 首页 ]</a></p>
+    </div>
+
+<%- include('./components/footer.ejs') %>
+<script>
+    var wait =5;
+    var target=$('.count');
+    counts(target);
+    function counts(target){
+        if(wait==1){
+            window.location.href="/admin"
+        }else{
+            wait--;
+            target.text(wait);
+            setTimeout(function(){
+                counts(target)
+            },1000)
+        };
+    }
+</script>
