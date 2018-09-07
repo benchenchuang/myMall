@@ -3,18 +3,32 @@ const app = new Koa()
 const views = require('koa-views')
 const json = require('koa-json')
 const onerror = require('koa-onerror')
+const session =require('koa-session');
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 
 const index = require('./routes/index')
-const users = require('./routes/users')
 
 // error handler
 onerror(app)
+app.keys=['mall'];
+const setConfig={
+  key:'token',
+  maxAge:18300000,
+  overwrite: true, 
+  httpOnly: true,
+  signed: true, 
+  rolling: false,
+}
+
+app.use(session(setConfig,app));
 
 // middlewares
 app.use(bodyparser({
-  enableTypes:['json', 'form', 'text']
+  enableTypes:['json', 'form', 'text'],
+  'formLimit':'5mb',
+  'jsonLimit':'5mb',
+  'textLimit':'5mb',
 }))
 app.use(json())
 app.use(logger())
@@ -33,8 +47,7 @@ app.use(async (ctx, next) => {
 })
 
 // routes
-app.use(index.routes(), index.allowedMethods())
-app.use(users.routes(), users.allowedMethods())
+app.use(index.routes(), index.allowedMethods());
 
 // error-handling
 app.on('error', (err, ctx) => {

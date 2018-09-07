@@ -1,5 +1,6 @@
 const config=require('../config/index');
 const mysql=require('mysql');
+const mysqlTable=require('../mysql_table/index');
 
 const pool=mysql.createPool({
     host:config.database.HOST,
@@ -31,4 +32,20 @@ let query=(sql,value)=>{
 let createTable=(sql)=>{
     return query(sql,[]);
 };
+//创建用户表
+createTable(mysqlTable.users);
+//创建分类表
+createTable(mysqlTable.category);
+//创建产品表
+createTable(mysqlTable.product);
+//创建购物车表
+createTable(mysqlTable.cart);
+//创建支付表
+createTable(mysqlTable.pay_info);
+//创建订单表
+createTable(mysqlTable.orders);
+//创建订单明细表
+createTable(mysqlTable.order_item);
+//创建收货地址表
+createTable(mysqlTable.ships);
 

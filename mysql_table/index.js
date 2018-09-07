@@ -72,7 +72,7 @@ module.exports={
     //订单表
     orders:`
         create table if not exists orders{
-            id INT(11) NOT NULL AUTO_INCREMENT COMMENT '订单ID',
+            id varchar(36) NOT NULL AUTO_INCREMENT COMMENT '订单ID',
             order_no BIGINT(20) DEFAULT NULL COMMENT '订单号',
             user_id INT(11) DEFAULT NULL COMMENT '用户ID',
             ship_id INT(11) DEFAULT NULL COMMENT '收货地址ID',
@@ -92,7 +92,7 @@ module.exports={
         create table if not exists order_item{
             id INT(11) NOT NULL AUTO_INCREMENT, 
             user_id INT(11) DEFAULT NULL COMMENT '用户ID',
-            order_id INT(11) DEFAULT NULL COMMENT '关联订单ID', 
+            order_id varchar(36) DEFAULT NULL COMMENT '关联订单ID', 
             order_no BIGINT(20) DEFAULT NULL COMMENT '订单号',
             product_id INT(11) DEFAULT NULL COMMENT '商品ID',
             product_name VARCHAR(100) DEFAULT NULL COMMENT '商品名称',
