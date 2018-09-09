@@ -10,20 +10,21 @@ const pool=mysql.createPool({
     port:config.database.PORT
 });
 
-let query=(sql,value)=>{
+let query=(sql,values)=>{
     return new Promise((resolve,reject)=>{
         pool.getConnection((err,connection)=>{
             if(err){
-                reject(err);
-            };
-            connection.query(sql,value,(err,rows)=>{
-                if(err){
-                    reject(err);
-                }else{
-                    resolve(rows);
-                };
-                connection.release();
-            })
+                reject(err)
+            }else{
+                connection.query(sql,values,(err,rows)=>{
+                    if(err){
+                        reject(err)
+                    }else{
+                        resolve(rows)
+                    }
+                    connection.release();
+                })
+            }
         })
     })
 }
@@ -48,4 +49,35 @@ createTable(mysqlTable.orders);
 createTable(mysqlTable.order_item);
 //创建收货地址表
 createTable(mysqlTable.ships);
+//创建Banner表
+createTable(mysqlTable.banner);
+//创建产品收藏表
+createTable(mysqlTable.product_love);
+
+module.exports={
+    //添加用户
+    addUser:(values)=>{
+        let _sql=`insert into users set ${values}`;
+        return query(_sql,values)
+    },
+    //查找用户(根据username)
+    findUserByName:(name)=>{
+        let _sql=`select * from users where username="${name}"`;
+        return query(_sql);
+    },
+    //查找用户(根据id)
+    findUserById:(id)=>{
+        let _sql=`select * from users where id=${id}`;
+        return query(_sql);
+    },
+    //删除用户
+    delUser:(id)=>{
+        let _sql=`delete from users where id in (${id})`;
+        return query(_sql);
+    },
+    //更新用户信息
+    updateUser:(values,id)=>{
+        let _sql=`update users set ${values} where id=${id}`;
+    }
+}
 

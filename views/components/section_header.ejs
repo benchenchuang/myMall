@@ -11,7 +11,7 @@
         <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
             <% if(user){ %>
                 <li class="am-dropdown">
-                    <a class="am-dropdown-toggle tpl-header-list-link" href="/admin/info">
+                    <a class="am-dropdown-toggle tpl-header-list-link" href="javascript:void(0);">
                             用户名：
                             <% if(user.avator){ %>
                             <img class="header_avator" src="/uploads/<%= user.avator %>"/>
@@ -23,9 +23,6 @@
             <% }else{ %>
                 <a class="am-dropdown-toggle tpl-header-list-link" href="/admin/login">
                     <span class="tpl-header-list-user-nick">登录</span>
-                </a>
-                <a class="am-dropdown-toggle tpl-header-list-link" href="/admin/register">
-                    <span class="tpl-header-list-user-nick">注册</span>
                 </a>
             <% } %>
         </ul>

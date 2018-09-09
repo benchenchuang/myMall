@@ -1,9 +1,9 @@
 module.exports = {
     port: 3636,
     database: {
-        DATABASE: 'myMall',
+        DATABASE: 'nodeMall',
         USERNAME: 'root',
-        PASSWORD: '',
+        PASSWORD: 'root',
         PORT: '3306',
         HOST: 'localhost'
     }

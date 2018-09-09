@@ -54,8 +54,6 @@
                                     <!-- <i class="tpl-left-nav-content tpl-badge-success">18</i> -->
                                 </a>
                             <% } %>
-    
-                            
                         </li>
                     </ul>
                 <% }else{ %>
@@ -111,6 +109,23 @@
                     </a>
                 <% } %>
             </li>
+            
+            <li class="tpl-left-nav-item">
+                <% if(index==10) {%>
+                <a href="/admin/questions" class="nav-link tpl-left-nav-link-list active">
+                    <i class="am-icon-question-circle-o"></i>
+                    <span>密码问题</span>
+                    <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                </a>
+                <% }else{%>
+                <a href="/admin/questions" class="nav-link tpl-left-nav-link-list">
+                    <i class="am-icon-question-circle-o"></i>
+                    <span>密码问题</span>
+                    <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                </a>
+                <% } %>
+            </li>
+            
             <li class="tpl-left-nav-item">
                 <a href="/admin/out" class="nav-link tpl-left-nav-link-list">
                     <i class="am-icon-sign-out"></i>
