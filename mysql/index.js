@@ -27,7 +27,7 @@ let query=(sql,values)=>{
             }
         })
     })
-}
+};
 
 //建表函数
 let createTable=(sql)=>{
@@ -48,36 +48,12 @@ createTable(mysqlTable.orders);
 //创建订单明细表
 createTable(mysqlTable.order_item);
 //创建收货地址表
-createTable(mysqlTable.ships);
+createTable(mysqlTable.address);
 //创建Banner表
 createTable(mysqlTable.banner);
 //创建产品收藏表
 createTable(mysqlTable.product_love);
+//创建问题
+createTable(mysqlTable.questions);
 
-module.exports={
-    //添加用户
-    addUser:(values)=>{
-        let _sql=`insert into users set ${values}`;
-        return query(_sql,values)
-    },
-    //查找用户(根据username)
-    findUserByName:(name)=>{
-        let _sql=`select * from users where username="${name}"`;
-        return query(_sql);
-    },
-    //查找用户(根据id)
-    findUserById:(id)=>{
-        let _sql=`select * from users where id=${id}`;
-        return query(_sql);
-    },
-    //删除用户
-    delUser:(id)=>{
-        let _sql=`delete from users where id in (${id})`;
-        return query(_sql);
-    },
-    //更新用户信息
-    updateUser:(values,id)=>{
-        let _sql=`update users set ${values} where id=${id}`;
-    }
-}
-
+module.exports = query;

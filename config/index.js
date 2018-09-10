@@ -3,7 +3,7 @@ module.exports = {
     database: {
         DATABASE: 'nodeMall',
         USERNAME: 'root',
-        PASSWORD: 'root',
+        PASSWORD: '',
         PORT: '3306',
         HOST: 'localhost'
     }

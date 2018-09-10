@@ -23,7 +23,7 @@
                         <img id="code" src="/api/code"/>
                     </div>
                     <input type="hidden" name="type" value="0">
-                    <p><button type="button" class="am-btn am_submit am-btn-default">登录</button></p>
+                    <p style="margin-top: 30px;"><button type="button" class="am-btn am_submit am-btn-default">登录</button></p>
                 </fieldset>
             </form>
         </div>
@@ -47,10 +47,9 @@
             url:'/api/login',
             type:"POST",
             data:formData,
-            headers: {'Authorization': 'token'},
             success:function(res){
                 if(res.status==2){
-                    alertModel(res.data);
+                    alertModel('登录成功');
                     if(webReferrer){
                         setTimeout(function(){
                             window.location.href=webReferrer
