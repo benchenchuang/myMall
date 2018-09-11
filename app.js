@@ -32,6 +32,8 @@ app.use(bodyparser({
   'jsonLimit':'5mb',
   'textLimit':'5mb',
 }))
+
+
 app.use(json())
 app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))
@@ -42,6 +44,7 @@ app.use(views(__dirname + '/views', {
 
 // logger
 app.use(async (ctx, next) => {
+  ctx.set('Access-Control-Allow-Origin', 'http://localhost:3636');
   const start = new Date()
   await next()
   const ms = new Date() - start

@@ -1,8 +1,26 @@
 const router = require('koa-router')({
-prefix:'/api'
+    prefix:'/api'
 });
+const multer=require('koa-multer');
+
 const Users=require('./api/users');
 const Questions=require('./api/questions');
+const Banners=require('./api/banner');
+
+//上传文件配置
+let storage=multer.diskStorage({
+    //文件保存路径
+    destination:(req,file,cb)=>{
+        cb(null,'public/upload/')
+    },
+    //修改文件名字
+    filename:(req,file,cb)=>{
+        let fileFormata=(file.originalname).split('.');
+        cb(null,Date.now()+'.'+fileFormata[fileFormata.length-1]);
+    }
+});
+//加载配置
+let upload=multer({storage:storage});
 
 //获取四位数验证码
 router.get('/code',Users.getCode);
@@ -27,5 +45,38 @@ router.post('/del_question',Questions.delQuestion);
 router.get('/get_question',Questions.findQuestionById);
 //修改问题
 router.post('/update_question',Questions.updateQuestion);
+
+//获取banners列表
+router.get('/banners',Banners.getBannerList);
+//获取在线banners列表
+router.get('/banner_online',Banners.getBannerOnLine);
+//获取banner详情
+router.get('/banner_detail',Banners.findBannerById);
+//添加banner 更新banner
+router.post('/add_banner',Banners.addBanner);
+//更新banner状态
+router.post('/update_banner_status',Banners.updateBannerStatus)
+//删除banner
+router.post('/del_banner',Banners.delBanner);
+
+//上传文件
+router.post('/upload',upload.fields([{ name: 'file', maxCount:9 }]),async(ctx,next)=>{
+    try{
+        let files=ctx.req.files.file;
+        let getFiles=[];
+        for(let file of files){
+            getFiles.push('upload/'+file.filename);
+        };
+        return ctx.body={
+            status:2,
+            data:getFiles
+        }
+    }catch(e){
+        return ctx.body={
+            status:1,
+            data:'上传失败'
+        }
+    }
+});
   
 module.exports = router;

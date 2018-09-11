@@ -31,8 +31,10 @@ module.exports={
             show_index INT(11) NOT NULL COMMENT 'Banner展示顺序',
             image VARCHAR(500) NOT NULL COMMENT 'Banner图',
             link VARCHAR(500) NOT NULL COMMENT 'Banner链接地址',
-            status INT(6) NOT NULL COMMENT '状态：1-上线 2-下线 3-删除',
+            title VARCHAR(500) NOT NULL COMMENT 'Banner标题',
+            status INT(6) NOT NULL COMMENT '状态：0-下线 1-上线 2-删除',
             create_time VARCHAR(100) NOT NULL COMMENT '创建时间',
+            update_time VARCHAR(100) NOT NULL COMMENT '最后更新时间',
             PRIMARY KEY ( id )
         )ENGINE=InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
     `,
@@ -40,9 +42,9 @@ module.exports={
     category:`
         create table if not exists category (
             id INT(11) NOT NULL AUTO_INCREMENT COMMENT '类别ID',
-            name VARCHAR(50) NOT NULL COMMENT '类别名称',
-            sort_image VARCHAR(500) NOT NULL COMMENT '商品主图',
-            sort_id INT(4) NOT NULL COMMENT '类别排序，同值自然排序',
+            sort_name VARCHAR(50) NOT NULL COMMENT '类别名称',
+            sort_image VARCHAR(500) NOT NULL COMMENT '类别主图',
+            sort_index INT(4) NOT NULL COMMENT '类别排序，同值自然排序',
             create_time VARCHAR(100) NOT NULL COMMENT '创建时间',
             update_time VARCHAR(100) NOT NULL COMMENT '更新时间',
             PRIMARY KEY ( id )

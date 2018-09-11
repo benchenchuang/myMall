@@ -1,0 +1,166 @@
+<%- include('../components/header.ejs') %>
+<%- include('../components/section_header.ejs') %>
+<%- include('../components/section_tabs.ejs') %>
+<style>
+    .tpl-form-file-img img{
+        width: 350px;
+        height: 200px;
+    }
+</style>
+<div id="wrap">
+        <div class="tpl-content-wrapper tpl-portlet-components">
+            <div class="tpl-block" id="edit_article">
+                <div class="am-g">
+                    <div class="tpl-form-body tpl-form-line">
+                        <div class="am-form tpl-form-line-form">
+                            <div class="am-form-group">
+                                <label for="user-weibo" class="am-u-sm-3 am-form-label">Banner图<span class="tpl-form-line-small-title">Images</span></label>
+                                <div class="am-u-sm-9">
+                                    <div class="am-form-group am-form-file">
+                                        <form id="file_form" enctype="multipart/form-data">
+                                            <div class="tpl-form-file-img" v-if="detail.image">
+                                                <img :src='imgUrl+detail.image' alt="">
+                                            </div>
+                                            <button type="button" class="am-btn am-btn-danger am-btn-sm"><i class="am-icon-cloud-upload"></i> 添加图片</button>
+                                            <input name="file" type="file" @change="uplaod">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <form id="banner_form">
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">标题 <span class="tpl-form-line-small-title">Title</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" class="tpl-form-input" v-model="detail.title" name="title"placeholder="请输入标题文字">
+                                        <small>请填写标题文字10-20字左右。</small>
+                                    </div>
+                                </div>
+
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">显示序号 <span class="tpl-form-line-small-title">Index</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" class="tpl-form-input" v-model="detail.show_index" name="show_index"placeholder="请输入显示序号">
+                                        <small>阿拉伯数字，数字越大越靠后</small>
+                                    </div>
+                                </div>
+
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">链接地址 <span class="tpl-form-line-small-title">Link</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" class="tpl-form-input" v-model="detail.link" name="link"placeholder="请输入链接地址">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-weibo" class="am-u-sm-3 am-form-label">状态 <span class="tpl-form-line-small-title">Status</span></label>
+                                    <div class="am-u-sm-9">
+                                        <select v-model="detail.status">
+                                            <option value="0">下线</option>
+                                            <option value="1" selected>上线</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-u-sm-9 am-u-sm-push-3">
+                                        <button type="button" v-if="detail.id" @click="addBanner" class="am-btn am-btn-primary tpl-btn-bg-color-success ">更新</button>
+                                        <button type="button" v-else @click="addBanner" class="am-btn am-btn-primary tpl-btn-bg-color-success ">确定</button>
+                                    </div>
+                                </div>
+                            </form>
+                    </div>
+                </div>
+            </div> 
+        </div>
+
+</div>       
+
+<%- include('../components/footer.ejs') %>
+<script>
+    new Vue({
+        el:'#wrap',
+        data:{
+            imgUrl:imgUrl,
+            detail:{
+                title:'',
+                image:'',
+                show_index:'',
+                link:'',
+                status:1
+            }
+        },
+        create(){
+        },
+        mounted(){
+            if(window.location.href.indexOf('?')!=-1){
+                let id=this.getUrlQuery('id');
+                let that=this;
+                if(id){
+                    that.getBannerDetail(id);
+                }
+            }
+        },
+        methods:{
+            getUrlQuery(name){
+                let value='';
+                let urlQuery=window.location.href.split('?')[1];
+                let urlData=urlQuery.split('&');
+                urlData.forEach(function(item){
+                    let itemName=item.split('=')[0];
+                    if(itemName==name){
+                        return value= item.split('=')[1]
+                    }
+                });
+                return value;
+            },
+            uplaod(){
+                let that=this;
+                let formData=new FormData(document.getElementById("file_form"));
+                $.ajax({
+                    url:getUrl+'/upload',
+                    type:'post',
+                    data:formData,
+                    contentType:false,
+                    processData:false,
+                    success:function(res){
+                        if(res.status==2){
+                            alertModel('上传成功');
+                            that.detail.image=res.data[0];
+                            return;
+                        }
+                        alertModel('上传失败')
+                    }
+                })
+            },
+            addBanner(){
+                let that=this;
+                $.ajax({
+                    url:getUrl+'/add_banner',
+                    type:'post',
+                    data:that.detail,
+                    success:function(res){
+                        alertModel(res.data);
+                        if(res.status==2){
+                            setTimeout(function(){
+                                window.location.href="./banners"
+                            },1000)
+                        }
+                    }
+                })
+            },
+            getBannerDetail(id){
+                let that=this;
+                $.ajax({
+                    url:getUrl+'/banner_detail',
+                    type:'get',
+                    data:{
+                        id:id
+                    },
+                    success:function(res){
+                        if(res.status==2){
+                            that.detail=res.data[0];
+                        }
+                    }
+                })
+            }
+        }
+    })
+</script>

@@ -1,0 +1,161 @@
+<%- include('../components/header.ejs') %>
+    <%- include('../components/section_header.ejs') %>
+    <%- include('../components/section_tabs.ejs') %>
+    <style>
+        .am-modal-bd{
+            text-align: left;
+        }
+        .banner_pic{
+            width: 100px;
+            height: 45px;
+        }
+    </style>
+<div class="wrap">
+    <div class="tpl-portlet-components">
+        <div class="portlet-title">
+            <div class="caption font-green bold">
+                <span class="am-icon-code"></span> Banner列表
+            </div>
+        </div>
+        <div class="tpl-block">
+            <div class="am-g">
+                <div class="am-u-sm-12 am-u-md-6">
+                    <div class="am-btn-toolbar">
+                        <div class="am-btn-group am-btn-group-xs">
+                            <a href="./banner_detail" type="button" class="am-btn am-btn-default am-btn-success">
+                                <span class="am-icon-plus"></span>新增banner
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="am-g">
+                <div class="tpl-table-images">
+                    <form class="am-form">
+                        <table class="am-table am-table-striped am-table-hover table-main">
+                            <thead>
+                                <tr>
+                                    <th class="table-title">序号</th>
+                                    <th class="table-title">图片显示</th>
+                                    <th class="table-title">显示顺序</th>
+                                    <th class="table-title">标题</th>
+                                    <th class="table-title">链接地址</th>
+                                    <th class="table-title">状态</th>
+                                    <th class="table-title">创建时间</th>
+                                    <th class="table-set">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody">
+                                <tr v-for="(banner,index) in banners">
+                                    <td class="table-title">{{index+1}}</td>
+                                    <td class="table-title"><img class="banner_pic" :src="imgUrl+banner.image"/></td>
+                                    <td class="table-title">{{banner.show_index}}</td>
+                                    <td class="table-title">{{banner.title}}</td>
+                                    <td class="table-title">{{banner.link}}</td>
+                                    <td class="table-title">
+                                        <a href="javascript:void(0);" type="button" class="am-btn am-btn-default am-btn-xs am-round" @click="updateStatus(banner.id,banner.status)" :class="banner.status?'am-btn-primary':''">{{banner.status==1?'在线':"下线"}}</a>
+                                    </td>
+                                    <td class="table-title">{{banner.create_time}}</td>
+                                    <td class="table-set">
+                                        <a href="javascript:void(0);" type="button" @click="del_banner(banner.id)" class="am-btn am-btn-default am-btn-xs">删除</a>
+                                        <a :href="'./banner_detail?id='+banner.id" type="button" class="am-btn am-btn-default am-btn-xs" >修改</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div id="paginations" class="am-pagination-right pagination">
+
+                        </div>
+                        <div style="clear:both"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+<%- include('../components/footer.ejs') %>
+<script>
+    new Vue({
+        el:'.wrap',
+        data:{
+            imgUrl:imgUrl,
+            page:1,
+            limit:10,
+            banners:[],
+        },
+        created(){
+            this.getBanners();
+        },
+        watch:{
+            page(){
+                this.getBanners();
+            }
+        },
+        methods:{
+            getBanners(){
+                let that=this;
+                $.ajax({
+                    url:getUrl+'/banners',
+                    type:'get',
+                    data:{
+                        page:that.page,
+                        limit:that.limit
+                    },
+                    success:function(res){
+                        if(res.status==2){
+                           that.banners=res.data.info;
+                           that.maxPages=res.data.totalPages; 
+                           $('#paginations').jqPaginator({
+                                totalPages: that.maxPages,
+                                visiblePages: 5,
+                                currentPage: that.page,
+                                prev:'<li class="prev"><a href="javascript:;">上一页</a></li>',
+                                next:'<li class="next"><a href="javascript:;">下一页</a></li>',
+                                page: `<li class="page"><a href="javascript:;">{{page}}</a></li>`,
+                                onPageChange: function (num) {
+                                    that.page=num;
+                                }
+                            })
+                        }else{
+                            alertModel(res.data);
+                        }
+                    }
+                })
+            },
+            del_banner(id){
+                let that=this;
+                $.ajax({
+                    url:getUrl+'/del_banner',
+                    type:'post',
+                    data:{
+                        id:id
+                    },
+                    success:function(res){
+                        alertModel(res.data);
+                        that.getBanners();
+                    }
+                })
+            },
+            updateStatus(id,status){
+                let that=this;
+                status=status==1?0:1;
+                $.ajax({
+                    url:getUrl+'/update_banner_status',
+                    type:'post',
+                    data:{
+                        id:id,
+                        status:status
+                    },
+                    success:function(res){
+                        alertModel(res.data);
+                        if(res.status==2){
+                            that.getBanners();
+                        }
+                    }
+                })
+            }
+        }
+    })
+</script>

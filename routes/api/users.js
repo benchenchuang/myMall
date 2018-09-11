@@ -73,7 +73,6 @@ module.exports={
                     } 
                 }
             }
-            console.log(res)
         });
 
     },
@@ -146,7 +145,6 @@ module.exports={
         let startCounts=(pageSize-1)*limit;
         let totalPages=Math.ceil(totalCouns/limit);
         let getData=await UserModel.getUsers([startCounts,limit]);
-        console.log(totalPages)
         return ctx.body={
             status:2,
             data:{

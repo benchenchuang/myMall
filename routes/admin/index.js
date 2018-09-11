@@ -28,6 +28,20 @@ module.exports={
             user:ctx.session.user
         })
     },
+    getBanners:async(ctx,next)=>{
+        await ctx.render('./banner/index',{
+            title:'banner列表',
+            index:8,
+            user:ctx.session.user
+        })
+    },
+    getBannerDetail:async(ctx,next)=>{
+        await ctx.render('./banner/desc',{
+            title:'banner详情',
+            index:8,
+            user:ctx.session.user
+        })
+    },
     loginOut:async(ctx,next)=>{
         ctx.session.user='';
         ctx.session.token='';

@@ -14,11 +14,13 @@
     "ejs": "~2.3.3",
     "jsonwebtoken": "^8.3.0",
     "koa": "^2.2.0",
+    "koa-body": "^4.0.4",
     "koa-bodyparser": "^3.2.0",
     "koa-convert": "^1.2.0",
     "koa-cors": "^0.0.16",
     "koa-json": "^2.0.2",
     "koa-logger": "^2.0.1",
+    "koa-multer": "^1.0.2",
     "koa-onerror": "^1.2.1",
     "koa-router": "^7.1.1",
     "koa-session": "^5.9.0",
@@ -26,7 +28,8 @@
     "koa-views": "^5.2.1",
     "md5": "^2.2.1",
     "moment": "^2.22.2",
-    "mysql": "^2.16.0"
+    "mysql": "^2.16.0",
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "nodemon": "^1.8.1"

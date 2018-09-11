@@ -36,7 +36,16 @@ module.exports={
         let limit=parseInt(ctx.request.query.limit || 10);
         let startCount=(pageSize-1)*limit;
         let questionPages=Math.ceil(questionCounts/limit);
-        let questions=await questionModel.getQuestions([startCount,limit]);
+
+        let questions;
+        try{
+            questions=await questionModel.getQuestions([startCount,limit]);
+        }catch(e){
+            return ctx.body={
+                status:0,
+                data:'获取失败'
+            }
+        }
         return ctx.body={
             status:2,
             data:{
@@ -48,7 +57,7 @@ module.exports={
     delQuestion:async (ctx,next)=>{
         let id=ctx.request.body.id;
         await questionModel.delQuestion(id).then(res=>{
-            if(res.serverStatus==2){
+            if(res.affectedRows==2){
                 return ctx.body={
                     status:2,
                     data:'删除成功'
@@ -62,14 +71,14 @@ module.exports={
         })
     },
     findQuestionById:async (ctx,next)=>{
-        let id=ctx.request.query.id;
-        let questionDetail=await questionModel.findQuestionById(id);
-        if(questionDetail){
+        try{
+            let id=ctx.request.query.id;
+            let questionDetail=await questionModel.findQuestionById(id);
             return ctx.body={
                 status:2,
                 data:questionDetail
             }
-        }else{
+        }catch(e){
             return ctx.body={
                 status:1,
                 data:'获取信息失败'
