@@ -9,7 +9,7 @@
 </style>
 <div id="wrap">
         <div class="tpl-content-wrapper tpl-portlet-components">
-            <div class="tpl-block" id="edit_article">
+            <div class="tpl-block">
                 <div class="am-g">
                     <div class="tpl-form-body tpl-form-line">
                         <div class="am-form tpl-form-line-form">
@@ -51,12 +51,16 @@
                                     </div>
                                 </div>
                                 <div class="am-form-group">
-                                    <label for="user-weibo" class="am-u-sm-3 am-form-label">状态 <span class="tpl-form-line-small-title">Status</span></label>
+                                    <label for="user-weibo" class="am-u-sm-3 am-form-label">是否上线 <span class="tpl-form-line-small-title">Status</span></label>
                                     <div class="am-u-sm-9">
-                                        <select v-model="detail.status">
-                                            <option value="0">下线</option>
-                                            <option value="1" selected>上线</option>
-                                        </select>
+                                        <div class="tpl-switch" @click="changeStatus(detail.status)">
+                                            <input type="checkbox" class="ios-switch bigswitch tpl-switch-btn" v-if="detail.status==1" checked="">
+                                            <input type="checkbox" class="ios-switch bigswitch tpl-switch-btn" v-else >
+                                            <div class="tpl-switch-btn-view">
+                                                <div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="am-form-group">
@@ -99,6 +103,9 @@
             }
         },
         methods:{
+            changeStatus(status){
+                this.detail.status=status==0?1:0;
+            },
             getUrlQuery(name){
                 let value='';
                 let urlQuery=window.location.href.split('?')[1];

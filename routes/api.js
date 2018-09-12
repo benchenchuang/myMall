@@ -77,7 +77,7 @@ router.post('/upload',upload.fields([{ name: 'file', maxCount:9 }]),async(ctx,ne
         let files=ctx.req.files.file;
         let getFiles=[];
         for(let file of files){
-            getFiles.push('upload/'+file.filename);
+            getFiles.push(file.filename);
         };
         return ctx.body={
             status:2,
