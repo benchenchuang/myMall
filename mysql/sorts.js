@@ -27,6 +27,11 @@ module.exports={
         let _sql=`select * from category where id='${id}'`;
         return query(_sql);
     },
+    //查找类别（by name)
+    findSortByName:name=>{
+        let _sql=`select * from category where sort_name='${name}'`;
+        return query(_sql);
+    },
     //获取类别数量
     getSortsCounts:()=>{
         let _sql=`select count(*) as total from category`;

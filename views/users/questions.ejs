@@ -164,7 +164,7 @@
                     success:function(res){
                         if(res.status==2){
                             that.questions=res.data.info;
-                            that.totalPages=res.data.totalPages
+                            that.totalPages=res.data.totalPages || 1;
                             $('#paginations').jqPaginator({
                                 totalPages: that.totalPages,
                                 visiblePages: 5,

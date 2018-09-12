@@ -14,7 +14,7 @@
     <div class="tpl-portlet-components">
         <div class="portlet-title">
             <div class="caption font-green bold">
-                <span class="am-icon-code"></span> Banner列表
+                <span class="am-icon-code"></span> 商城轮播图
             </div>
         </div>
         <div class="tpl-block">
@@ -106,7 +106,7 @@
                     success:function(res){
                         if(res.status==2){
                            that.banners=res.data.info;
-                           that.maxPages=res.data.totalPages; 
+                           that.maxPages=res.data.totalPages || 1; 
                            $('#paginations').jqPaginator({
                                 totalPages: that.maxPages,
                                 visiblePages: 5,

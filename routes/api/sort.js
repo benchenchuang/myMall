@@ -82,18 +82,28 @@ module.exports={
         
         let time=moment().format('YYYY-MM-DD HH:mm:ss');
         if(!sortId){
-            await sortModel.addSort([sortName,sortImg,sortIndex,time]).then(res=>{
-                if(res.affectedRows){
+            await sortModel.findSortByName(sortName).then(async res=>{
+                if(res.length){
                     return ctx.body={
-                        status:2,
-                        data:"添加成功"
+                        status:1,
+                        data:"类别名已存在，请修改"
                     }
-                }
-                return ctx.body={
-                    status:3,
-                    data:"添加失败"
+                }else{
+                    await sortModel.addSort([sortName,sortImg,sortIndex,time]).then(res=>{
+                        if(res.affectedRows){
+                            return ctx.body={
+                                status:2,
+                                data:"添加成功"
+                            }
+                        }
+                        return ctx.body={
+                            status:3,
+                            data:"添加失败"
+                        }
+                    })
                 }
             })
+            
         }else{
             await sortModel.updateSort([sortName,sortImg,sortIndex,time],sortId).then(res=>{
                 if(res.affectedRows){
@@ -108,5 +118,7 @@ module.exports={
                 }
             })
         }
+        
+        
     }
 }

@@ -17,6 +17,9 @@ router.get('/questions',Admin.getQestion);
 router.get('/banners',Admin.getBanners);
 //banner详情
 router.get('/banner_detail',Admin.getBannerDetail);
+//后台sort
+router.get('/sorts',Admin.getSorts);
+
 
 router.get('/*',async(ctx,next)=>{
   await ctx.render('error', {

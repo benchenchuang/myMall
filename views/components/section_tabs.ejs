@@ -20,7 +20,7 @@
             </li>
             <li class="tpl-left-nav-item">
                 <!-- 打开状态 a 标签添加 active 即可   -->
-                <% if( index==6 || index==7 ){ %>
+                <% if( index==6 || index==5 ){ %>
                     <a href="javascript:void(0);" class="nav-link tpl-left-nav-link-list active">
                         <i class="am-icon-table"></i>
                         <span>文章管理</span>
@@ -28,7 +28,7 @@
                     </a>
                     <ul class="tpl-left-nav-sub-menu" style="display:block">
                         <li>
-                            <% if(index==6){ %>
+                            <% if(index==5){ %>
                                 <a href="/admin/article/sort" class="active">
                                     <i class="am-icon-angle-right"></i>
                                     <span>文章分类</span>
@@ -41,7 +41,7 @@
                                     <!-- <i class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i> -->
                                 </a>
                             <% } %>
-                            <% if(index==7){ %>
+                            <% if(index==6){ %>
                                 <a href="/admin/article/list" class="active">
                                     <i class="am-icon-angle-right"></i>
                                     <span>文章列表</span>
@@ -79,16 +79,32 @@
             </li>
 
             <li class="tpl-left-nav-item">
+                <% if(index==7){ %>
+                    <a href="/admin/sorts" class="nav-link tpl-left-nav-link-list active">
+                        <i class="am-icon-th"></i>
+                        <span>产品分类</span>
+                        <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                    </a>
+                <% }else{%>
+                    <a href="/admin/sorts" class="nav-link tpl-left-nav-link-list">
+                        <i class="am-icon-th"></i>
+                        <span>产品分类</span>
+                        <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                    </a>
+                <% } %>
+            </li>
+
+            <li class="tpl-left-nav-item">
                 <% if(index==8){ %>
                     <a href="/admin/banners" class="nav-link tpl-left-nav-link-list active">
-                        <i class="am-icon-table"></i>
-                        <span>轮播列表</span>
+                        <i class="am-icon-image"></i>
+                        <span>网站轮播</span>
                         <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
                     </a>
                 <% }else{%>
                     <a href="/admin/banners" class="nav-link tpl-left-nav-link-list">
-                        <i class="am-icon-table"></i>
-                        <span>轮播列表</span>
+                        <i class="am-icon-image"></i>
+                        <span>网站轮播</span>
                         <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
                     </a>
                 <% } %>
@@ -97,13 +113,13 @@
                 <% if(index==9){ %>
                     <a href="/admin/users" class="nav-link tpl-left-nav-link-list active">
                         <i class="am-icon-user-md"></i>
-                        <span>用户列表</span>
+                        <span>网站用户</span>
                         <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
                     </a>
                 <% }else{%>
                     <a href="/admin/users" class="nav-link tpl-left-nav-link-list">
                         <i class="am-icon-user-md"></i>
-                        <span>用户列表</span>
+                        <span>网站用户</span>
                         <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
                     </a>
                 <% } %>

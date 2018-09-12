@@ -6,6 +6,7 @@ const multer=require('koa-multer');
 const Users=require('./api/users');
 const Questions=require('./api/questions');
 const Banners=require('./api/banner');
+const Sorts=require('./api/sort');
 
 //上传文件配置
 let storage=multer.diskStorage({
@@ -58,6 +59,17 @@ router.post('/add_banner',Banners.addBanner);
 router.post('/update_banner_status',Banners.updateBannerStatus)
 //删除banner
 router.post('/del_banner',Banners.delBanner);
+
+//获取sorts列表
+router.get('/get_sorts',Sorts.getSortList);
+//删除sort
+router.post('/del_sort',Sorts.delSort);
+//获取sort详情
+router.get('/sort_detail',Sorts.findSortById);
+//添加/更新sort
+router.post('/add_sort',Sorts.addSort);
+
+
 
 //上传文件
 router.post('/upload',upload.fields([{ name: 'file', maxCount:9 }]),async(ctx,next)=>{

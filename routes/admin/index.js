@@ -9,36 +9,43 @@ module.exports={
     },
     getLogin:async (ctx,next)=>{
         await ctx.render('./users/login', {
-            title: 'Hello Koa 2!',
+            title: '用户登录',
             index:1,
             user:ctx.session.user
         })
     },
     getUsers:async (ctx,next)=>{
         await ctx.render('./users/users',{
-            title:"用户列表",
+            title:"网站用户",
             index:9,
             user:ctx.session.user
         })
     },
     getQestion:async(ctx,next)=>{
         await ctx.render('./users/questions',{
-            title:'密码问题列表',
+            title:'密码问题',
             index:10,
             user:ctx.session.user
         })
     },
     getBanners:async(ctx,next)=>{
         await ctx.render('./banner/index',{
-            title:'banner列表',
+            title:'网站轮播图',
             index:8,
             user:ctx.session.user
         })
     },
     getBannerDetail:async(ctx,next)=>{
         await ctx.render('./banner/desc',{
-            title:'banner详情',
+            title:'轮播图详情',
             index:8,
+            user:ctx.session.user
+        })
+    },
+    getSorts:async(ctx,next)=>{
+        await ctx.render('./sort/index',{
+            title:'商品分类',
+            index:7,
             user:ctx.session.user
         })
     },
