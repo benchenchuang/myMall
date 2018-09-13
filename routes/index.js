@@ -2,23 +2,24 @@ const router = require('koa-router')({
   prefix:'/admin'
 });
 const Admin=require('./admin/index');
+const Token=require('../middlewares/token');
 
 //后台-首页
-router.get('/',Admin.getIndex);
+router.get('/',Token.adminCheck,Admin.getIndex);
 //后台-登录
 router.get('/login',Admin.getLogin);
 //后台-退出
 router.get('/out',Admin.loginOut);
 //后台-用户列表
-router.get('/users',Admin.getUsers);
+router.get('/users',Token.adminCheck,Admin.getUsers);
 //后台-问题
-router.get('/questions',Admin.getQestion);
+router.get('/questions',Token.adminCheck,Admin.getQestion);
 //后台banner
-router.get('/banners',Admin.getBanners);
+router.get('/banners',Token.adminCheck,Admin.getBanners);
 //banner详情
-router.get('/banner_detail',Admin.getBannerDetail);
+router.get('/banner_detail',Token.adminCheck,Admin.getBannerDetail);
 //后台sort
-router.get('/sorts',Admin.getSorts);
+router.get('/sorts',Token.adminCheck,Admin.getSorts);
 
 
 router.get('/*',async(ctx,next)=>{

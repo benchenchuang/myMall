@@ -7,6 +7,7 @@ const Users=require('./api/users');
 const Questions=require('./api/questions');
 const Banners=require('./api/banner');
 const Sorts=require('./api/sort');
+const Shops=require('./api/shops');
 
 //上传文件配置
 let storage=multer.diskStorage({

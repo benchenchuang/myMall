@@ -60,6 +60,7 @@ module.exports={
                     user.password='';
                     ctx.session.user=user;
                     let token=TokenModel.createToken(user.id);
+                    ctx.session.token=token;
                     return ctx.body={
                         status:2,
                         data:{
