@@ -49,6 +49,20 @@ module.exports={
             user:ctx.session.user
         })
     },
+    getShops:async(ctx,next)=>{
+        await ctx.render('./product/index',{
+            title:'商品列表',
+            index:6,
+            user:ctx.session.user
+        })
+    },
+    addShop:async(ctx,next)=>{
+        await ctx.render('./product/add',{
+            title:'商品详情',
+            index:6,
+            user:ctx.session.user
+        })
+    },
     loginOut:async(ctx,next)=>{
         ctx.session.user='';
         ctx.session.token='';

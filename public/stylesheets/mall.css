@@ -22,3 +22,9 @@
     background: #0e90d2!important;
     color: #fff!important;
 }
+.select_areas{
+    position: relative;
+    width: 200px!important;
+    border: 1px solid #e4e4e4!important;
+    padding-left: 10px!important;
+}

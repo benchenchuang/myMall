@@ -11,22 +11,22 @@ module.exports={
      * onSale 是否可卖 0 不可卖 1 可卖
      */
     getShops:(values,sort,recommend,status,onSale)=>{
-        let _sql=`select a.*,b.sort_name from (select * from product order by -id  limit ?,? where id>0`;
+        let _sql=`select a.*,b.sort_name from ( select * from product where id > 0`;
 
         if(sort){
             _sql+=` and category_id='${sort}'`;
         }
-        if(recommend!='' || recommend!=null){
+        if(recommend!='' || recommend!==null){
             _sql+=` and recommend='${recommend}'`
         }
-        if(status!='' || status!=null){
+        if(status!='' || status!==null){
             _sql+=` and status='${status}'`
         }
-        if(onSale!='' || onSale!=null){
+        if(onSale!='' || onSale!==null){
             _sql+=` and stock>'0'`
         }
         
-        _sql+=`) as a LEFT JOIN category as b on a.category_id=b.id`;
+        _sql+=` order by -id  limit ?,? ) as a LEFT JOIN category as b on a.category_id=b.id`;
         return query(_sql,values);
     },
     //删除商品
@@ -44,7 +44,7 @@ module.exports={
     //添加商品 更新商品(id存在)
     addShop:(values,id)=>{
         if(id){
-            let _sql=`insert into product set category_id=?,name=?,sub_title=?,banner_images=?,detail=?,price=?,stock=?,recommend=?,status=? , update_time=? where id='${id}'`;
+            let _sql=`update product set category_id=?,name=?,sub_title=?,banner_images=?,detail=?,price=?,stock=?,recommend=?,status=? , update_time=? where id='${id}'`;
         }else{
             let _sql="insert into product set category_id=?,name=?,sub_title=?,banner_images=?,detail=?,price=?,stock=?,recommend=?,status=? , create_time=?";
         }
@@ -56,13 +56,13 @@ module.exports={
         if(sort){
             _sql+=` and category_id='${sort}'`;
         }
-        if(recommend!='' || recommend!=null){
+        if(recommend!='' || recommend!==null){
             _sql+=` and recommend='${recommend}'`
         }
-        if(status!='' || status!=null){
+        if(status!='' || status!==null){
             _sql+=` and status='${status}'`
         }
-        if(onSale!='' || onSale!=null){
+        if(onSale!='' || onSale!==null){
             _sql+=` and stock>'0'`
         }
         return query(_sql);

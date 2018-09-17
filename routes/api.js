@@ -70,6 +70,11 @@ router.get('/sort_detail',Sorts.findSortById);
 //添加/更新sort
 router.post('/add_sort',Sorts.addSort);
 
+//获取products列表
+router.get('/products',Shops.getProducts);
+//添加product
+router.post('/add_product',Shops.addProduct);
+
 
 
 //上传文件

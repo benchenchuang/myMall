@@ -1,0 +1,217 @@
+<%- include('../components/header.ejs') %>
+<%- include('../components/section_header.ejs') %>
+<%- include('../components/section_tabs.ejs') %>
+<style>
+    .tpl-form-file-img{
+        overflow: hidden;
+    }
+    .img_list{
+        position: relative;
+        float: left;
+        width: 120px;
+        height: 100px;
+    }
+    .img_list .am-icon-trash{
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
+    .img_list img{
+        width: 120px;
+        height: 100px;
+    }
+</style>
+<div id="wrap">
+        <div class="tpl-content-wrapper tpl-portlet-components">
+            <div class="tpl-block">
+                <div class="am-g">
+                    <div class="tpl-form-body tpl-form-line">
+                        <div class="am-form tpl-form-line-form">
+                            <div class="am-form-group">
+                                <label for="user-weibo" class="am-u-sm-3 am-form-label">Product图<span class="tpl-form-line-small-title">Images</span></label>
+                                <div class="am-u-sm-9">
+                                    <div class="am-form-group am-form-file">
+                                        <form id="file_form" enctype="multipart/form-data">
+                                            <div class="tpl-form-file-img" style="width: 680px;" v-if="detail.banner_images.length">
+                                                <div class="img_list" v-for="(item,index) in detail.banner_images" v:key="index">
+                                                    <i class="am-icon-trash" @click="del_banner(index)"></i>
+                                                    <img :src='imgUrl+item' alt="">
+                                                </div>
+                                            </div>
+                                            <div style="width: 100%;height: 50px;position: relative;">
+                                                <button type="button" class="am-btn am-btn-danger am-btn-sm"><i class="am-icon-cloud-upload"></i> 添加图片</button>
+                                                <input name="file" type="file" multiple @change="upload" style="height: 100%;">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <form id="banner_form">
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">标题 <span class="tpl-form-line-small-title">Title</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" class="tpl-form-input" v-model="detail.name" placeholder="请输入标题文字">
+                                        <small>请填写标题文字3-20字左右。</small>
+                                    </div>
+                                </div>
+
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">分类 <span class="tpl-form-line-small-title">Category</span></label>
+                                    <div class="am-u-sm-9">
+                                        <select class="select_areas" v-model="detail.category_id">
+                                            <option :value="item.id" v-for="item in sorts">{{item.sort_name}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">商品副标题 <span class="tpl-form-line-small-title">Sub_title</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" class="tpl-form-input" v-model="detail.sub_title" placeholder="请输入商品副标题">
+                                        <small>商品副标题,请填写标题文字10-50字左右。</small>
+                                    </div>
+                                </div>
+
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">商品价格 <span class="tpl-form-line-small-title">Price</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" class="tpl-form-input" v-model="detail.price" placeholder="请输入商品价格">
+                                    </div>
+                                </div>
+
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">商品库存 <span class="tpl-form-line-small-title">Stock</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" class="tpl-form-input" v-model="detail.stock" placeholder="请输入商品库存">
+                                    </div>
+                                </div>
+
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">推荐首页 <span class="tpl-form-line-small-title">Recommend</span></label>
+                                    <div class="am-u-sm-9">
+                                        <div class="tpl-switch" @click="changeRecommend(detail.recommend)">
+                                            <input type="checkbox" class="ios-switch bigswitch tpl-switch-btn" v-if="detail.recommend==1" checked="">
+                                            <input type="checkbox" class="ios-switch bigswitch tpl-switch-btn" v-else >
+                                            <div class="tpl-switch-btn-view">
+                                                <div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">商品状态 <span class="tpl-form-line-small-title">Status</span></label>
+                                    <div class="am-u-sm-9">
+                                        <div class="tpl-switch" @click="changeStatus(detail.status)">
+                                            <input type="checkbox" class="ios-switch bigswitch tpl-switch-btn" v-if="detail.status==1" checked="">
+                                            <input type="checkbox" class="ios-switch bigswitch tpl-switch-btn" v-else >
+                                            <div class="tpl-switch-btn-view">
+                                                <div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">商品详情 <span class="tpl-form-line-small-title">Detail</span></label>
+                                    <div class="am-u-sm-9">
+                                        <div id="editor" name="editor" name="editor" v-html="detail.detail"></div>
+                                    </div>
+                                </div>
+
+                                <div class="am-form-group">
+                                    <div class="am-u-sm-9 am-u-sm-push-3">
+                                        <button type="button" class="am-btn am-btn-primary tpl-btn-bg-color-success" v-if="detail.id">更新</button>
+                                        <button type="button" class="am-btn am-btn-primary tpl-btn-bg-color-success" v-else>确定</button>
+                                    </div>
+                                </div>
+                            </form>
+                    </div>
+                </div>
+            </div> 
+        </div>
+</div>       
+
+<%- include('../components/footer.ejs') %>
+<script src="//unpkg.com/wangeditor/release/wangEditor.min.js"></script>
+<script>
+    var editor= new window.wangEditor('#editor');
+    $(function(){
+        editor.customConfig.uploadImgShowBase64 = true
+        editor.create();
+    });
+
+    new Vue({
+        el:"#wrap",
+        data:{
+            imgUrl:imgUrl,
+            sorts:[],
+            detail:{
+                id:'',
+                category_id:'',
+                name:'',
+                sub_title:'',
+                banner_images:[],
+                detail:'',
+                price:'',
+                stock:'',
+                recommend:'',
+                status:'',
+            }
+        },
+        created(){
+            this.getSorts();
+            
+        },
+        mounted(){
+            
+        },
+        methods:{
+            del_banner(index){
+                console.log(index);
+            },
+            changeRecommend(recommend){
+                this.detail.recommend=recommend==2?1:2;
+            },
+            changeStatus(status){
+                this.detail.status=status==2?1:2;
+            },
+            getSorts(){
+                let that=this;
+                $.ajax({
+                    url:getUrl+'/get_sorts',
+                    type:'get',
+                    success:function(res){
+                        if(res.status==2){
+                            that.sorts=res.data.info;
+                            that.detail.category_id=that.sorts[0]['id'];
+                        }else{
+                            alertModel(res.data);
+                        }
+                    }
+                })
+            },
+            upload(){
+                let that=this;
+                let formData=new FormData(document.getElementById("file_form"));
+                $.ajax({
+                    url:getUrl+'/upload',
+                    type:'post',
+                    data:formData,
+                    contentType:false,
+                    processData:false,
+                    success:function(res){
+                        if(res.status==2){
+                            alertModel('上传成功');
+                            that.detail.banner_images=res.data;
+                            return;
+                        }
+                        alertModel('上传失败')
+                    }
+                })
+            }
+        }
+    })
+</script>

@@ -13,7 +13,7 @@ module.exports={
                 } 
             }else{
                 await questionModel.addQuestion([question,time]).then(res=>{
-                    if(res.serverStatus==2){
+                    if(res.affectedRows){
                         return ctx.body={
                             status:2,
                             data:'添加成功'

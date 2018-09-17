@@ -18,63 +18,20 @@
                     </a>
                 <% } %>
             </li>
+
             <li class="tpl-left-nav-item">
-                <!-- 打开状态 a 标签添加 active 即可   -->
-                <% if( index==6 || index==5 ){ %>
-                    <a href="javascript:void(0);" class="nav-link tpl-left-nav-link-list active">
+                <% if(index==6){ %>
+                    <a href="/admin/products" class="nav-link tpl-left-nav-link-list active">
                         <i class="am-icon-table"></i>
-                        <span>文章管理</span>
-                        <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right tpl-left-nav-more-ico-rotate"></i>
-                    </a>
-                    <ul class="tpl-left-nav-sub-menu" style="display:block">
-                        <li>
-                            <% if(index==5){ %>
-                                <a href="/admin/article/sort" class="active">
-                                    <i class="am-icon-angle-right"></i>
-                                    <span>文章分类</span>
-                                    <!-- <i class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i> -->
-                                </a>
-                            <% }else{%>
-                                <a href="/admin/article/sort">
-                                    <i class="am-icon-angle-right"></i>
-                                    <span>文章分类</span>
-                                    <!-- <i class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i> -->
-                                </a>
-                            <% } %>
-                            <% if(index==6){ %>
-                                <a href="/admin/article/list" class="active">
-                                    <i class="am-icon-angle-right"></i>
-                                    <span>文章列表</span>
-                                    <!-- <i class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i> -->
-                                </a>
-                            <% }else{%>
-                                <a href="/admin/article/list">
-                                    <i class="am-icon-angle-right"></i>
-                                    <span>文章列表</span>
-                                    <!-- <i class="tpl-left-nav-content tpl-badge-success">18</i> -->
-                                </a>
-                            <% } %>
-                        </li>
-                    </ul>
-                <% }else{ %>
-                    <a href="javascript:void(0);" class="nav-link tpl-left-nav-link-list">
-                        <i class="am-icon-table"></i>
-                        <span>文章管理</span>
+                        <span>产品列表</span>
                         <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
                     </a>
-                    <ul class="tpl-left-nav-sub-menu">
-                        <li>
-                            <a href="/admin/article/sort">
-                                <i class="am-icon-angle-right"></i>
-                                <span>文章分类</span>
-                                <!-- <i class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i> -->
-                            </a>
-                            <a href="/admin/article/list">
-                                <i class="am-icon-angle-right"></i>
-                                <span>文章列表</span>
-                            </a>
-                        </li>
-                    </ul>
+                <% }else{%>
+                    <a href="/admin/products" class="nav-link tpl-left-nav-link-list">
+                        <i class="am-icon-table"></i>
+                        <span>产品列表</span>
+                        <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                    </a>
                 <% } %>
             </li>
 

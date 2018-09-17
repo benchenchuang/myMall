@@ -61,8 +61,8 @@ module.exports={
             detail TEXT COMMENT '商品详情',
             price DECIMAL(10,2) NOT NULL COMMENT '商品价格，保留2位小数',
             stock INT(11) NOT NULL COMMENT '库存数量',
-            recommend INT(6) NOT NULL COMMENT '推荐首页： 0-否  1-推荐',
-            status INT(6) NOT NULL COMMENT '库存状态： 0-下架 1-在售',
+            recommend INT(6) NOT NULL COMMENT '推荐首页： 2-否  1-推荐',
+            status INT(6) NOT NULL COMMENT '库存状态： 2-下架 1-在售',
             create_time VARCHAR(100) NOT NULL COMMENT '创建时间',
             update_time VARCHAR(100) NOT NULL COMMENT '更新时间',
             PRIMARY KEY ( id )

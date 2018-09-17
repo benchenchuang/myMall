@@ -20,6 +20,10 @@ router.get('/banners',Token.adminCheck,Admin.getBanners);
 router.get('/banner_detail',Token.adminCheck,Admin.getBannerDetail);
 //后台sort
 router.get('/sorts',Token.adminCheck,Admin.getSorts);
+//后台products
+router.get('/products',Token.adminCheck,Admin.getShops);
+//商品详情/添加商品
+router.get('/add_product',Token.adminCheck,Admin.addShop);
 
 
 router.get('/*',async(ctx,next)=>{
