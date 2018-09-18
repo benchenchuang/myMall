@@ -10,6 +10,7 @@
         float: left;
         width: 120px;
         height: 100px;
+        margin-right: 10px;
     }
     .img_list .am-icon-trash{
         position: absolute;
@@ -123,8 +124,8 @@
 
                                 <div class="am-form-group">
                                     <div class="am-u-sm-9 am-u-sm-push-3">
-                                        <button type="button" class="am-btn am-btn-primary tpl-btn-bg-color-success" v-if="detail.id">更新</button>
-                                        <button type="button" class="am-btn am-btn-primary tpl-btn-bg-color-success" v-else>确定</button>
+                                        <button type="button" class="am-btn am-btn-primary tpl-btn-bg-color-success" @click="addProduct" v-if="detail.id">更新</button>
+                                        <button type="button" class="am-btn am-btn-primary tpl-btn-bg-color-success" @click="addProduct" v-else>确定</button>
                                     </div>
                                 </div>
                             </form>
@@ -170,7 +171,7 @@
         },
         methods:{
             del_banner(index){
-                console.log(index);
+                this.detail.banner_images.splice(index,1);
             },
             changeRecommend(recommend){
                 this.detail.recommend=recommend==2?1:2;
@@ -209,6 +210,24 @@
                             return;
                         }
                         alertModel('上传失败')
+                    }
+                })
+            },
+            addProduct(){
+                let that=this;
+                this.detail.detail=editor.txt.html();
+                $.ajax({
+                    url:getUrl+'/add_product',
+                    type:'post',
+                    data:that.detail,
+                    success:function(res){
+                        console.log(res)
+                        alertModel(res.data);
+                        if(res.status==2){
+                            setTimeout(function(){
+                                window.location.href="./products";
+                            },1000)
+                        }
                     }
                 })
             }

@@ -43,10 +43,11 @@ module.exports={
     },
     //添加商品 更新商品(id存在)
     addShop:(values,id)=>{
+        let _sql;
         if(id){
-            let _sql=`update product set category_id=?,name=?,sub_title=?,banner_images=?,detail=?,price=?,stock=?,recommend=?,status=? , update_time=? where id='${id}'`;
+            _sql=`update product set category_id=?,name=?,sub_title=?,banner_images=?,detail=?,price=?,stock=?,recommend=?,status=? , update_time=? where id='${id}'`;
         }else{
-            let _sql="insert into product set category_id=?,name=?,sub_title=?,banner_images=?,detail=?,price=?,stock=?,recommend=?,status=? , create_time=?";
+            _sql="insert into product set category_id=?,name=?,sub_title=?,banner_images=?,detail=?,price=?,stock=?,recommend=?,status=? , create_time=?";
         }
         return query(_sql,values);
     },
