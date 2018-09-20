@@ -74,6 +74,10 @@ router.post('/add_sort',Sorts.addSort);
 router.get('/products',Shops.getProducts);
 //添加product
 router.post('/add_product',Shops.addProduct);
+//删除product
+router.post('/del_product',Shops.delProduct);
+//获取product详情
+router.get('/product',Shops.getProductDetail);
 
 
 

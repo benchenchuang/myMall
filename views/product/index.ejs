@@ -9,6 +9,20 @@
             width: 100px;
             height: 45px;
         }
+        .tpl-table-line-img{
+            width: 50px;
+            height: 30px;
+        }
+        .gradeX.even td{
+            background: #fff!important;
+        }
+        .group_select{
+            width: 180px;
+            height: 32px;
+            border-color: #e4e4e4;
+            border-radius: 4px;
+            padding: 2px 5px;
+        }
     </style>
 <div class="wrap">
         <div class="tpl-portlet-components">
@@ -22,24 +36,17 @@
                         <div class="am-form-group">
                             <div class="am-btn-toolbar">
                                 <div class="am-btn-group am-btn-group-xs">
-                                    <a href="./add_product" type="button" class="am-btn am-btn-default am-btn-success"><span class="am-icon-plus"></span> 新增</a>
-                                    <button type="button" class="am-btn am-btn-default am-btn-secondary"><span class="am-icon-save"></span> 保存</button>
-                                    <button type="button" class="am-btn am-btn-default am-btn-warning"><span class="am-icon-archive"></span> 审核</button>
-                                    <button type="button" class="am-btn am-btn-default am-btn-danger"><span class="am-icon-trash-o"></span> 删除</button>
+                                    <a href="./add_product" type="button" class="am-btn am-btn-success"><span class="am-icon-plus"></span>新增</a>
+                                    <a href="javascript:void(0);" type="button" class="am-btn am-btn-danger" @click="delGroup"><span class="am-icon-del"></span>删除</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="am-u-sm-12 am-u-md-6 am-u-lg-3">
                         <div class="am-form-group tpl-table-list-select">
-                            <select data-am-selected="{btnSize: 'sm'}" style="display: none;">
-                                <option value="option1">所有类别</option>
-                                <option value="option2">IT业界</option>
-                                <option value="option3">数码产品</option>
-                                <option value="option3">笔记本电脑</option>
-                                <option value="option3">平板电脑</option>
-                                <option value="option3">只能手机</option>
-                                <option value="option3">超极本</option>
+                            <select class="group_select" v-model="sort">
+                                <option value=''>全部</option>
+                                <option :value="item.id" v-for="item in sorts">{{item.sort_name}}</option>
                             </select>
                         </div>
                     </div>
@@ -48,6 +55,7 @@
                         <table width="100%" class="am-table am-table-compact am-table-striped tpl-table-black ">
                             <thead>
                                 <tr>
+                                    <th><input type="checkbox" @click="checkAll(event)" class="check_all"> 全选</th>
                                     <th>缩略图</th>
                                     <th>分类</th>
                                     <th>标题</th>
@@ -60,19 +68,43 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="gradeX"> <!-- even -->
+                                <tr class="gradeX" v-for="(product,index) in products" :class="{'even':index%2==1}">
+                                    <td><input type="checkbox" name="selectors" v-model="checkData" :value="product.id"></td>
                                     <td>
-                                        <img src="assets/img/k.jpg" class="tpl-table-line-img" alt="">
+                                        <img :src="imgUrl+product.banner_images[0]" class="tpl-table-line-img" alt="">
                                     </td>
-                                    <td class="am-text-middle"></td>
-                                    <td class="am-text-middle">张鹏飞</td>
-                                    <td class="am-text-middle">2016-09-26</td>
+                                    <td class="am-text-middle">{{product.sort_name}}</td>
+                                    <td class="am-text-middle">{{product.name}}</td>
+                                    <td class="am-text-middle">{{product.price}}</td>
+                                    <td class="am-text-middle">{{product.stock}}</td>
+                                    <!-- <td class="am-text-middle">{{product.recommend==2?'不推荐':"推荐"}}</td> -->
+                                    <td class="am-text-middle">
+                                        <div class="tpl-switch" @click="updateRecommend(product.id,product.recommend)">
+                                            <input type="checkbox" class="ios-switch bigswitch tpl-switch-btn" v-if="product.recommend==1" checked="">
+                                            <input type="checkbox" class="ios-switch bigswitch tpl-switch-btn" v-else >
+                                            <div class="tpl-switch-btn-view">
+                                                <div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="am-text-middle">
+                                        <div class="tpl-switch" @click="updateStatus(product.id,product.status)">
+                                            <input type="checkbox" class="ios-switch bigswitch tpl-switch-btn" v-if="product.status==1" checked="">
+                                            <input type="checkbox" class="ios-switch bigswitch tpl-switch-btn" v-else >
+                                            <div class="tpl-switch-btn-view">
+                                                <div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="am-text-middle">{{product.create_time}}</td>
                                     <td class="am-text-middle">
                                         <div class="tpl-table-black-operation">
-                                            <a href="javascript:;">
+                                            <a :href="'./add_product?id='+product.id">
                                                 <i class="am-icon-pencil"></i> 编辑
                                             </a>
-                                            <a href="javascript:;" class="tpl-table-black-operation-del">
+                                            <a href="javascript:void(0);" class="tpl-table-black-operation-del" @click="del_product(product.id)">
                                                 <i class="am-icon-trash"></i> 删除
                                             </a>
                                         </div>
@@ -94,30 +126,58 @@
         data:{
             imgUrl:imgUrl,
             page:1,
+            sorts:[],
+            checkData:[],
+            sort:'',
             limit:10,
-            banners:[],
+            products:[],
+            status:'',
+            recommend:''
         },
         created(){
-            // this.getBanners();
+            this.getProducts();
+            this.getSorts();
         },
         watch:{
             page(){
-                this.getBanners();
+                this.getProducts();
+            },
+            sort(){
+                this.getProducts();
+            },
+            checkData:{
+                handler(){
+                    if(this.checkData.length==this.products.length){
+                        document.querySelector('.check_all').checked = true;
+                    }else{
+                        document.querySelector('.check_all').checked = false;
+                    }
+                },
+                deep:true
             }
         },
         methods:{
-            getBanners(){
+            getProducts(){
                 let that=this;
                 $.ajax({
-                    url:getUrl+'/banners',
+                    url:getUrl+'/products',
                     type:'get',
                     data:{
                         page:that.page,
-                        limit:that.limit
+                        limit:that.limit,
+                        sort:that.sort
                     },
                     success:function(res){
                         if(res.status==2){
-                           that.banners=res.data.info;
+                           let shops=res.data.shops;
+                           if(shops.length){
+                                shops.forEach(element => {
+                                    if(element.banner_images){
+                                        element.banner_images=JSON.parse(element.banner_images);
+                                    }
+                                });
+                           }
+                           that.products=shops;
                            that.maxPages=res.data.totalPages || 1; 
                            $('#paginations').jqPaginator({
                                 totalPages: that.maxPages,
@@ -136,37 +196,87 @@
                     }
                 })
             },
-            del_banner(id){
+            getSorts(){
                 let that=this;
                 $.ajax({
-                    url:getUrl+'/del_banner',
+                    url:getUrl+'/get_sorts',
+                    type:'get',
+                    success:function(res){
+                        if(res.status==2){
+                            that.sorts=res.data.info;
+                        }else{
+                            alertModel(res.data);
+                        }
+                    }
+                })
+            },
+            del_product(id){
+                let that=this;
+                $.ajax({
+                    url:getUrl+'/del_product',
                     type:'post',
                     data:{
                         id:id
                     },
                     success:function(res){
                         alertModel(res.data);
-                        that.getBanners();
+                        that.getProducts();
                     }
-                })
+                });
             },
-            updateStatus(id,status){
+            checkAll(e){
+                if(e.target.checked){
+                    this.products.forEach((el,i)=>{
+                        if(this.checkData.indexOf(el.id) == '-1'){ 
+                            this.checkData.push(el.id);
+                        }
+                    });
+                }else {
+                    this.checkData = [];
+                }
+            },
+            delGroup(){
+              this.del_product(this.checkData);  
+            },
+            updateProduct(id){
                 let that=this;
-                status=status==1?0:1;
+                let shop;
                 $.ajax({
-                    url:getUrl+'/update_banner_status',
-                    type:'post',
+                    url:getUrl+'/product',
+                    type:'get',
                     data:{
-                        id:id,
-                        status:status
+                        id:id
                     },
                     success:function(res){
-                        alertModel(res.data);
+                        res.data[0].banner_images=JSON.parse(res.data[0].banner_images);
                         if(res.status==2){
-                            that.getBanners();
+                            shop=res.data[0];
+                            if(that.recommend){
+                                shop.recommend=that.recommend;
+                            }
+                            if(that.status){
+                                shop.status=that.status;
+                            }
+                            $.ajax({
+                                url:getUrl+'/add_product',
+                                type:'post',
+                                data:shop,
+                                success:function(res){
+                                    alertModel(res.data);
+                                    that.getProducts();
+                                }
+                            })
                         }
                     }
-                })
+                }); 
+            },
+            updateRecommend(id,ev){
+                this.recommend=ev==1?2:1;
+                this.updateProduct(id);
+            },
+            updateStatus(id,ev){
+                this.status=ev==1?2:1;
+                this.updateProduct(id);
             }
         }
     })

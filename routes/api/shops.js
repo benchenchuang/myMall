@@ -10,9 +10,9 @@ module.exports={
         let startCount=(pageSize-1)*limit;
 
         let sort=getDatas.sort;
-        let recommend=getDatas.recommend || 1;
-        let status=getDatas.status || 1;
-        let onSale=getDatas.onSale || 1;
+        let recommend=getDatas.recommend;
+        let status=getDatas.status;
+        let onSale=getDatas.onSale;
 
         let dataCounts=await productModel.shopsCount(sort,recommend,status,onSale);
         let counts=dataCounts[0].total;
@@ -83,6 +83,12 @@ module.exports={
 
         await productModel.addShop([categoryId,productName,subTitle,banners,detail,price,stock,recommend,status,time],id).then(res=>{
             if(res.affectedRows){
+                if(id){
+                    return ctx.body={
+                        status:2,
+                        data:'更新成功'
+                    }  
+                }
                 return ctx.body={
                     status:2,
                     data:'添加成功'
@@ -94,5 +100,38 @@ module.exports={
                 } 
             }
         });
+    },
+    delProduct:async (ctx,next)=>{
+        let formData=ctx.request.body;
+        let id=formData.id;
+
+        await productModel.delShop(id).then(res=>{
+            if(res.affectedRows){
+                return ctx.body={
+                    status:2,
+                    data:'删除成功'
+                }
+            }else{
+                return ctx.body={
+                    status:3,
+                    data:'删除失败'
+                } 
+            }
+        })
+    },
+    getProductDetail:async (ctx,next)=>{
+        try{
+            let id=ctx.request.query.id;
+            let shopDedeil=await productModel.ShopDetail(id);
+            return ctx.body={
+                status:2,
+                data:shopDedeil
+            }
+        }catch(e){
+            return ctx.body={
+                status:1,
+                data:'获取信息失败'
+            }
+        }
     }
 }

@@ -118,7 +118,9 @@
                                 <div class="am-form-group">
                                     <label for="user-name" class="am-u-sm-3 am-form-label">商品详情 <span class="tpl-form-line-small-title">Detail</span></label>
                                     <div class="am-u-sm-9">
-                                        <div id="editor" name="editor" name="editor" v-html="detail.detail"></div>
+                                        <div id="editor" name="editor" name="editor" >
+                                            <p v-html="detail.detail"></p>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -138,7 +140,7 @@
 <%- include('../components/footer.ejs') %>
 <script src="//unpkg.com/wangeditor/release/wangEditor.min.js"></script>
 <script>
-    var editor= new window.wangEditor('#editor');
+    var editor= new wangEditor('#editor');
     $(function(){
         editor.customConfig.uploadImgShowBase64 = true
         editor.create();
@@ -158,18 +160,35 @@
                 detail:'',
                 price:'',
                 stock:'',
-                recommend:'',
-                status:'',
+                recommend:'2',
+                status:'2',
             }
         },
         created(){
             this.getSorts();
-            
         },
         mounted(){
-            
+            if(window.location.href.indexOf('?')!=-1){
+                let id=this.getUrlQuery('id');
+                let that=this;
+                if(id){
+                    that.getShopDetail(id);
+                }
+            }
         },
         methods:{
+            getUrlQuery(name){
+                let value='';
+                let urlQuery=window.location.href.split('?')[1];
+                let urlData=urlQuery.split('&');
+                urlData.forEach(function(item){
+                    let itemName=item.split('=')[0];
+                    if(itemName==name){
+                        return value= item.split('=')[1]
+                    }
+                });
+                return value;
+            },
             del_banner(index){
                 this.detail.banner_images.splice(index,1);
             },
@@ -216,6 +235,7 @@
             addProduct(){
                 let that=this;
                 this.detail.detail=editor.txt.html();
+                editor.txt.html(this.detail.detail);
                 $.ajax({
                     url:getUrl+'/add_product',
                     type:'post',
@@ -227,6 +247,23 @@
                             setTimeout(function(){
                                 window.location.href="./products";
                             },1000)
+                        }
+                    }
+                })
+            },
+            getShopDetail(id){
+                let that=this;
+                $.ajax({
+                    url:getUrl+'/product',
+                    type:'get',
+                    data:{
+                        id:id
+                    },
+                    success:function(res){
+                        console.log(res)
+                        res.data[0].banner_images=JSON.parse(res.data[0].banner_images);
+                        if(res.status==2){
+                            that.detail=res.data[0];
                         }
                     }
                 })

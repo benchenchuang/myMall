@@ -16,21 +16,21 @@ module.exports={
         if(sort){
             _sql+=` and category_id='${sort}'`;
         }
-        if(recommend!='' || recommend!==null){
+        if(recommend!='' && recommend!=null){
             _sql+=` and recommend='${recommend}'`
         }
-        if(status!='' || status!==null){
+        if(status!='' && status!=null){
             _sql+=` and status='${status}'`
         }
-        if(onSale!='' || onSale!==null){
+        if(onSale!='' && onSale!=null){
             _sql+=` and stock>'0'`
         }
         
-        _sql+=` order by -id  limit ?,? ) as a LEFT JOIN category as b on a.category_id=b.id`;
+        _sql+=` limit ?,? ) as a LEFT JOIN category as b on a.category_id=b.id`;
         return query(_sql,values);
     },
     //删除商品
-    delSort:(id)=>{
+    delShop:(id)=>{
         let _sql=`delete from product where id in (${id})`;
         return query(_sql)
     },
@@ -57,14 +57,14 @@ module.exports={
         if(sort){
             _sql+=` and category_id='${sort}'`;
         }
-        if(recommend!='' || recommend!==null){
+        if(recommend!=null && recommend!=''){
             _sql+=` and recommend='${recommend}'`
         }
-        if(status!='' || status!==null){
+        if(status!=null && status!=''){
             _sql+=` and status='${status}'`
         }
-        if(onSale!='' || onSale!==null){
-            _sql+=` and stock>'0'`
+        if(onSale!=null && onSale!=''){
+            _sql+=` and stock > 0`
         }
         return query(_sql);
     },

@@ -16,7 +16,7 @@ onerror(app)
 app.keys=['mall'];
 const setConfig={
   key:'token',
-  maxAge:18300000,
+  maxAge:1830000000,
   overwrite: true, 
   httpOnly: true,
   signed: true, 
