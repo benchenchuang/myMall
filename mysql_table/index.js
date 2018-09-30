@@ -6,6 +6,7 @@ module.exports={
             id INT(11) NOT NULL AUTO_INCREMENT COMMENT '用户表ID',
             username VARCHAR(100) NOT NULL COMMENT '用户名',
             password VARCHAR(100) NOT NULL COMMENT '用户密码,MD5加密',
+            avatar VARCHAR(150) NOT NULL COMMENT '用户头像',
             question INT(11) NOT NULL COMMENT '找回密码问题',
             answer VARCHAR(100) NOT NULL COMMENT '找回密码答案',
             role INT(4) NOT NULL COMMENT '角色0-管理员 1-用户',
@@ -136,9 +137,6 @@ module.exports={
             id INT(11) NOT NULL AUTO_INCREMENT ,
             user_id VARCHAR(100) NOT NULL COMMENT '收藏人ID',
             product_id VARCHAR(100) NOT NULL COMMENT '产品ID',
-            product_name VARCHAR(100) NOT NULL COMMENT '商品名称',
-            product_image VARCHAR(150) NOT NULL COMMENT '商品图片',
-            product_price DECIMAL(10,2) NOT NULL COMMENT '商品单价',
             create_time VARCHAR(100) NOT NULL COMMENT '创建时间',
             PRIMARY KEY ( id )
         )ENGINE=InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
@@ -150,6 +148,7 @@ module.exports={
             user_id INT(11) NOT NULL COMMENT '用户ID',
             ship_name VARCHAR(20) NOT NULL COMMENT '收货姓名',
             ship_phone VARCHAR(20) NOT NULL COMMENT '收货电话',
+            checked INT(11) NOT NULL COMMENT '是否选择 1-已勾选 0 未勾选',
             ship_address VARCHAR(200) NOT NULL COMMENT '收货地址',
             create_time VARCHAR(100) NOT NULL COMMENT '创建时间',
             update_time VARCHAR(100) NOT NULL COMMENT '更新时间',

@@ -64,6 +64,7 @@ module.exports={
                     return ctx.body={
                         status:2,
                         data:{
+                            userId:user,
                             token:token
                         }
                     }
@@ -174,7 +175,6 @@ module.exports={
     findName:async(ctx,next)=>{
         let username=ctx.request.body.username;
         let getData=await UserModel.findUserByName(username);
-        console.log(getData)
         return ctx.body={
             status:2,
             data:{
@@ -184,8 +184,5 @@ module.exports={
     },
     addQuestion:async(ctx,next)=>{
         let question =ctx.request.body.question;
-    },
-    getQestions:async(ctx,next)=>{
-    //    let questions=await  ; 
     }
 }

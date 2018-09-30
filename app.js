@@ -11,6 +11,7 @@ const cors = require('koa-cors');
 const index = require('./routes/index');
 const api = require('./routes/api');
 
+
 // error handler
 onerror(app)
 app.keys=['mall'];
@@ -44,7 +45,10 @@ app.use(views(__dirname + '/views', {
 
 // logger
 app.use(async (ctx, next) => {
-  ctx.set('Access-Control-Allow-Origin', 'http://localhost:3636');
+  ctx.set('Access-Control-Allow-Origin', '*');
+  ctx.set('Access-Control-Allow-Methods', 'PUT,DELETE,POST,GET');
+  ctx.set('Access-Control-Allow-Credentials', true);
+
   const start = new Date()
   await next()
   const ms = new Date() - start
@@ -52,7 +56,10 @@ app.use(async (ctx, next) => {
 })
 
 // routes
-// app.use(cors());
+// app.use(cors({
+//   origin:'*',
+//   credentials:true
+// }));
 app.use(index.routes(), index.allowedMethods());
 app.use(api.routes(), api.allowedMethods());
 

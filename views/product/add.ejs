@@ -261,9 +261,8 @@
                     },
                     success:function(res){
                         console.log(res)
-                        res.data[0].banner_images=JSON.parse(res.data[0].banner_images);
                         if(res.status==2){
-                            that.detail=res.data[0];
+                            that.detail=res.data.shop;
                         }
                     }
                 })

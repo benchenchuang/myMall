@@ -37,8 +37,8 @@ module.exports={
     //商品详情（by id)
     ShopDetail:(id)=>{
         let _sql=`select a.*,b.sort_name,count(c.product_id) as love_count from (select * from product where id='${id}') as a
-                  LEFT JOIN category as b on a.category_id=b.id
-                  LEFT JOIN product_love as c on a.id=c.product_id GROUP by a.id`;
+                    LEFT JOIN category as b on a.category_id=b.id
+                    LEFT JOIN product_love as c on a.id=c.product_id GROUP by a.id`;
         return query(_sql);
     },
     //添加商品 更新商品(id存在)
@@ -73,10 +73,16 @@ module.exports={
         let _sql=`select * from product_love where user_id=${user} and product_id=${product}`;
         return query(_sql);
     },
+    //获取收藏列表
+    getCollects:(useId)=>{
+        let _sql=`select a.*,c.id,c.name,c.banner_images,c.price from (select * from product_love where user_id=${useId}) as a
+                LEFT JOIN product as c on a.product_id=c.id`;
+        return query(_sql);
+    },
     //收藏商品
     collectShop:(values)=>{
-        let _sql="insert into product_love set user_id=?,product_id=?,product_name=?,product_image?,product_price=?,create_time=?";
-        return query(_sql);
+        let _sql="insert into product_love set user_id=? , product_id =? ,create_time=?";
+        return query(_sql,values);
     },
     //取消收藏
     cancleShop:(id)=>{

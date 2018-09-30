@@ -8,7 +8,6 @@ module.exports={
         let pageSize=parseInt(getDatas.page || 1);
         let limit=parseInt(getDatas.limit || 10);
         let startCount=(pageSize-1)*limit;
-
         let sort=getDatas.sort;
         let recommend=getDatas.recommend;
         let status=getDatas.status;
@@ -20,6 +19,9 @@ module.exports={
         let allShops;
         try{
            allShops=await productModel.getShops([startCount,limit],sort,recommend,status,onSale);
+           allShops.forEach(element => {
+               element.banner_images=JSON.parse(element.banner_images)
+           });
         }catch(e){
             return ctx.body={
                 status:0,
@@ -122,10 +124,20 @@ module.exports={
     getProductDetail:async (ctx,next)=>{
         try{
             let id=ctx.request.query.id;
+            let userId=ctx.request.query.userId || '';
+            let collect=[];
+            if(userId){
+                collect=await productModel.findCollect(userId,id);
+            };
             let shopDedeil=await productModel.ShopDetail(id);
+            let shop=shopDedeil[0];
+            shop.banner_images=JSON.parse(shop.banner_images)
             return ctx.body={
                 status:2,
-                data:shopDedeil
+                data:{
+                    shop:shop,
+                    collect:collect
+                }
             }
         }catch(e){
             return ctx.body={

@@ -170,13 +170,6 @@
                     success:function(res){
                         if(res.status==2){
                            let shops=res.data.shops;
-                           if(shops.length){
-                                shops.forEach(element => {
-                                    if(element.banner_images){
-                                        element.banner_images=JSON.parse(element.banner_images);
-                                    }
-                                });
-                           }
                            that.products=shops;
                            that.maxPages=res.data.totalPages || 1; 
                            $('#paginations').jqPaginator({
@@ -248,9 +241,8 @@
                         id:id
                     },
                     success:function(res){
-                        res.data[0].banner_images=JSON.parse(res.data[0].banner_images);
                         if(res.status==2){
-                            shop=res.data[0];
+                            shop=res.data.shop;
                             if(that.recommend){
                                 shop.recommend=that.recommend;
                             }

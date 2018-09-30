@@ -2,12 +2,14 @@ const router = require('koa-router')({
     prefix:'/api'
 });
 const multer=require('koa-multer');
+const Token=require('../middlewares/token');
 
 const Users=require('./api/users');
 const Questions=require('./api/questions');
 const Banners=require('./api/banner');
 const Sorts=require('./api/sort');
 const Shops=require('./api/shops');
+const getWeb=require('./api/web');
 
 //上传文件配置
 let storage=multer.diskStorage({
@@ -79,6 +81,30 @@ router.post('/del_product',Shops.delProduct);
 //获取product详情
 router.get('/product',Shops.getProductDetail);
 
+//获取首页页面内容
+router.get('/home',getWeb.webHome);
+//商品收藏功能
+router.post('/collect/shop',Token.checkToken,getWeb.collectShop);
+//商品收藏取消
+router.post('/cancel/shop',Token.checkToken,getWeb.cancelShop);
+//添加购物车
+router.post('/cart/add',Token.checkToken,getWeb.addCart);
+//获取购物车列表
+router.get('/carts',Token.checkToken,getWeb.getCarts);
+//购物车删除
+router.post('/cart/del',Token.checkToken,getWeb.delCart);
+//获取用户信息
+router.get('/user/info',Token.checkToken,getWeb.findUserById);
+//获取用户收藏商品列表
+router.get('/collects',Token.checkToken,getWeb.getCollects);
+//获取用户地址列表
+router.get('/address/list',Token.checkToken,getWeb.getAddressList);
+//获取地址详情
+router.get('/address/detail',Token.checkToken,getWeb.detailAddress);
+//删除地址
+router.post('/address/delete',Token.checkToken,getWeb.delAddress);
+//提交地址
+router.post('/address/add',Token.checkToken,getWeb.addAddress);
 
 
 //上传文件
