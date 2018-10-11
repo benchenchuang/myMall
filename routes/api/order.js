@@ -185,6 +185,22 @@ module.exports={
                 } 
             }
         })
+    },
+    deleterOrders:async (ctx,next)=>{
+        let id =ctx.request.body.id;
+        await orderModel.delOrder(id).then(res=>{
+            if(res.affectedRows){
+                return ctx.body={
+                    status:2,
+                    data:'删除成功'
+                }
+            }else{
+                return ctx.body={
+                    status:3,
+                    data:'删除失败'
+                } 
+            }
+        })   
     }
 };
 

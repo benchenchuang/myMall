@@ -63,6 +63,20 @@ module.exports={
             user:ctx.session.user
         })
     },
+    getOrders:async (ctx,next)=>{
+        await ctx.render('./orders/index',{
+            title:'订单列表',
+            index:5,
+            user:ctx.session.user
+        });
+    },
+    orderDetail:async (ctx,next)=>{
+        await ctx.render('./orders/detail',{
+            title:'订单详情',
+            index:5,
+            user:ctx.session.user
+        });
+    },
     loginOut:async(ctx,next)=>{
         ctx.session.user='';
         ctx.session.token='';

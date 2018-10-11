@@ -4,7 +4,7 @@ const query=require('./index');
 module.exports={
     //获取订单列表
     getOrders(userId,start,limit){
-        let _sql=`select t.* from (select a.*,c.ship_name,c.ship_phone,c.ship_address from `;
+        let _sql=`select t.* from (select a.*,c.ship_name,c.ship_phone,c.ship_address,d.username from `;
         if(userId){
             if(!start && !limit){
                 _sql+=`(select * from orders order by -id)`
@@ -18,7 +18,7 @@ module.exports={
                 _sql+=`(select * from orders order by -id limit ${start},${limit})`
             }
         }
-         _sql+=` a LEFT JOIN address c on a.ship_id=c.id) t`;
+         _sql+=` a LEFT JOIN address c on a.ship_id=c.id LEFT JOIN users d on a.user_id=d.id) t`;
         return query(_sql);
     },
     //获取订单明细表
@@ -33,14 +33,14 @@ module.exports={
     },
     //获取订单表详情
     getOrderDetail(orderId){
-        let _sql=`select a.*,c.ship_name,c.ship_phone,c.ship_address from (select * from orders where id=${orderId}) as a
-                LEFT JOIN address as c on a.ship_id=c.id`;
+        let _sql=`select a.*,c.ship_name,c.ship_phone,c.ship_address,d.username from (select * from orders where id=${orderId}) as a
+                LEFT JOIN address as c on a.ship_id=c.id LEFT JOIN users d on a.user_id=d.id`;
         return query(_sql);
     },
     //删除订单
     delOrder(id){
-        let _sql=`delete orders,order_item from orders as a
-         left join order_item as b on a.id=b.order_id where orders.id in (${id})`;
+        let _sql=`delete orders,order_item from orders
+         left join order_item on orders.id=order_item.order_id where orders.id in (${id})`;
         return query(_sql);
     },
     //创建订单

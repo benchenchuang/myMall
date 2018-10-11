@@ -1,0 +1,163 @@
+<%- include('../components/header.ejs') %>
+<%- include('../components/section_header.ejs') %>
+<%- include('../components/section_tabs.ejs') %>
+<style>
+    .tpl-form-file-img{
+        overflow: hidden;
+    }
+    .img_list{
+        position: relative;
+        float: left;
+        width: 120px;
+        height: 100px;
+        margin-right: 10px;
+    }
+    .img_list .am-icon-trash{
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
+    .img_list img{
+        width: 120px;
+        height: 100px;
+    }
+</style>
+<div id="wrap">
+        <div class="tpl-content-wrapper tpl-portlet-components">
+            <div class="tpl-block">
+                <div class="am-g">
+                    <div class="tpl-form-body tpl-form-line">
+                        <div class="am-form tpl-form-line-form">
+                            <div class="am-form-group">
+                                <label for="user-name" class="am-u-sm-3 am-form-label">订单号 <span class="tpl-form-line-small-title">Order_NO</span></label>
+                                <div class="am-u-sm-9">
+                                    <p>{{order.order_no}}</p>
+                                </div>
+                            </div>
+
+                            <div class="am-form-group">
+                                <label for="user-name" class="am-u-sm-3 am-form-label">用户 <span class="tpl-form-line-small-title">Username</span></label>
+                                <div class="am-u-sm-9">
+                                    <p>{{order.username}}</p>
+                                </div>
+                            </div>
+
+                            <div class="am-form-group">
+                                <label for="user-name" class="am-u-sm-3 am-form-label">订单状态 <span class="tpl-form-line-small-title">Status</span></label>
+                                <div class="am-u-sm-9">
+                                    <p>{{order.status | orderStatus}}</p>
+                                </div>
+                            </div>
+
+                            <div class="am-form-group">
+                                <label for="user-name" class="am-u-sm-3 am-form-label">订单金额 <span class="tpl-form-line-small-title">Money</span></label>
+                                <div class="am-u-sm-9">
+                                    <p>￥{{order.pay_money}}</p>
+                                </div>
+                            </div>
+
+                            <div class="am-form-group">
+                                <label for="user-name" class="am-u-sm-3 am-form-label">付款方式 <span class="tpl-form-line-small-title">Pay_Type</span></label>
+                                <div class="am-u-sm-9">
+                                    <p>{{order.pay_type==1?'微信':'支付宝'}}</p>
+                                </div>
+                            </div>
+
+                            <div class="am-form-group">
+                                <label for="user-name" class="am-u-sm-3 am-form-label">收货人信息 <span class="tpl-form-line-small-title">Info</span></label>
+                                <div class="am-u-sm-9">
+                                    <p>{{order.ship_name}}--{{order.ship_phone}}--{{order.ship_address}}</p>
+                                </div>
+                            </div>
+
+                            <div class="am-form-group">
+                                <label for="user-name" class="am-u-sm-3 am-form-label">订单商品信息 <span class="tpl-form-line-small-title">Order_shop</span></label>
+                                <div class="am-u-sm-9" v-for="(item,index) in order_items" style="padding:10px 0;border-bottom: 1px solid #e4e4e4;">
+                                    <p>名称：{{item.product_name}}</p>
+                                    <p>数量：{{item.quantity}}</p>
+                                    <p>单价：￥{{item.product_price}}</p>
+                                    <p>小计：￥{{item.total_price}}</p>
+                                </div>
+                            </div>
+
+                    </div>
+                </div>
+            </div> 
+        </div>
+</div>       
+
+<%- include('../components/footer.ejs') %>
+<script>
+
+    new Vue({
+        el:"#wrap",
+        data:{
+            imgUrl:imgUrl,
+            order:{},
+            order_items:[]
+        },
+        filters:{
+            orderStatus(status){
+                switch(status){
+                    case 0:
+                    return '已取消';
+                    break;
+                    case 1:
+                    return '未付款';
+                    break;
+                    case 2:
+                    return '已付款';
+                    break;
+                    case 3:
+                    return '已发货';
+                    break;
+                    case 4:
+                    return '交易成功';
+                    break;
+                    case 5:
+                    return '交易关闭'
+                }
+            }
+        },
+        mounted(){
+            if(window.location.href.indexOf('?')!=-1){
+                let id=this.getUrlQuery('id');
+                let that=this;
+                if(id){
+                    that.getOrderDetail(id);
+                }
+            }
+        },
+        methods:{
+            getUrlQuery(name){
+                let value='';
+                let urlQuery=window.location.href.split('?')[1];
+                let urlData=urlQuery.split('&');
+                urlData.forEach(function(item){
+                    let itemName=item.split('=')[0];
+                    if(itemName==name){
+                        return value= item.split('=')[1]
+                    }
+                });
+                return value;
+            },
+            getOrderDetail(id){
+                let that=this;
+                $.ajax({
+                    url:getUrl+'/order/detail',
+                    type:'get',
+                    data:{
+                        id:id
+                    },
+                    success:function(res){
+                        console.log(res)
+                        if(res.status==2){
+                            that.order=res.data.order;
+                            that.order_items=res.data.orderItem;
+                        }
+                    }
+                })
+            }
+        }
+    })
+</script>

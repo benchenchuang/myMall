@@ -20,6 +20,21 @@
             </li>
 
             <li class="tpl-left-nav-item">
+                <% if(index==5){ %>
+                    <a href="/admin/orders" class="nav-link tpl-left-nav-link-list active">
+                        <i class="am-icon-bars"></i>
+                        <span>订单列表</span>
+                        <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                    </a>
+                <% }else{%>
+                    <a href="/admin/orders" class="nav-link tpl-left-nav-link-list">
+                        <i class="am-icon-bars"></i>
+                        <span>订单列表</span>
+                        <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                    </a>
+                <% } %>
+            </li>
+            <li class="tpl-left-nav-item">
                 <% if(index==6){ %>
                     <a href="/admin/products" class="nav-link tpl-left-nav-link-list active">
                         <i class="am-icon-table"></i>

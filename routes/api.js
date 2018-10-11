@@ -81,6 +81,8 @@ router.post('/add_product',Shops.addProduct);
 router.post('/del_product',Shops.delProduct);
 //获取product详情
 router.get('/product',Shops.getProductDetail);
+//后台删除订单
+router.post('/orders/del',Order.deleterOrders);
 
 //获取首页页面内容
 router.get('/home',getWeb.webHome);
@@ -109,13 +111,14 @@ router.post('/address/add',Token.checkToken,getWeb.addAddress);
 //创建订单
 router.post('/order/add',Token.checkToken,Order.addOrder);
 //获取订单列表
-router.get('/order/list',Token.checkToken,Order.getOrderList);
+router.get('/order/list',Order.getOrderList);
 //获取订单详情内容
-router.get('/order/detail',Token.checkToken,Order.getOrder);
+router.get('/order/detail',Order.getOrder);
 //更改订单状态-付款
 router.post('/order/status',Token.checkToken,Order.updateOrderStatus);
 //删除订单
 router.post('/order/del',Token.checkToken,Order.delOrder);
+
 
 
 //上传文件

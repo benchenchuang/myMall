@@ -24,6 +24,10 @@ router.get('/sorts',Token.adminCheck,Admin.getSorts);
 router.get('/products',Token.adminCheck,Admin.getShops);
 //商品详情/添加商品
 router.get('/add_product',Token.adminCheck,Admin.addShop);
+//订单列表
+router.get('/orders',Token.adminCheck,Admin.getOrders);
+//订单详情
+router.get('/orders/detail',Token.adminCheck,Admin.orderDetail);
 
 
 router.get('/*',async(ctx,next)=>{
