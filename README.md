@@ -1,5 +1,25 @@
 # NodeJS Mall项目
 
+# Node做的简约商城（部分功能没有）<br/><br/>
+
+> vue项目地址 https://github.com/benchenchuang/myMall
+
+## 登录（用户名+密码+验证码）
+ <img src="./public/images/1.png"/><br/>
+## 订单中心（查看所有订单+删除订单）
+ <img src="./public/images/2.png"/><br/>
+## 商品列表（添加、查看、修改、删除等操作）
+ <img src="./public/images/3.png"/><br/>
+## 商品详情（查看、修改等操作）
+ <img src="./public/images/4.png"/><br/>
+## 产品分类（查看、添加、删除、修改等操作）
+ <img src="./public/images/5.png"/><br/>
+## 轮播图（查看、添加、删除、修改等操作）
+ <img src="./public/images/6.png"/><br/>
+## 用户（查看、添加、删除等操作）
+ <img src="./public/images/7.png"/><br/>
+ 
+
 ### days_01 初始化项目及数据表结构
 > koa2初始化项目及初始配置信息<br/>
 > 数据表框架构思及表设计<br/>
@@ -33,3 +53,4 @@
 
 ### days_10 Vue手机端 订单相关Api
 > 关于手机页面 订单的展示 取消 倒计时等的api<br/>
+
