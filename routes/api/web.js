@@ -275,7 +275,8 @@ module.exports={
         let time=moment().format('YYYY-MM-DD HH:mm:ss');
         if(checked===true || checked==false){
             await addressModel.updateAddress(userId);
-        };
+        }
+        checked=checked?1:0;
         await addressModel.addAdress(userId,name,phone,address,time,checked,id).then(res=>{
             if(res.affectedRows){
                 if(id){
@@ -325,12 +326,3 @@ module.exports={
         })
     }
 }
-
-
-const schedule = require("node-schedule");
-var date = new Date(2018,8,28,17,19,0);
-var rule = new schedule.RecurrenceRule();
-rule.second = 0;
-var j = schedule.scheduleJob(rule, function(){
-　console.log("执行任务111111111111");
-});

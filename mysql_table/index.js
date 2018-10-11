@@ -88,7 +88,7 @@ module.exports={
             id INT(11) NOT NULL AUTO_INCREMENT,
             user_id INT(11) NOT NULL COMMENT '用户ID',
             order_no BIGINT(20) NOT NULL COMMENT '订单号',
-            pay_platform INT(10) NOT NULL COMMENT '支付平台 1-支付表 2-微信',
+            pay_platform INT(10) NOT NULL COMMENT '支付平台 1-支付宝 2-微信',
             pay_status VARCHAR(20) NOT NULL COMMENT '支付状态',
             create_time VARCHAR(100) NOT NULL COMMENT '创建时间',
             update_time VARCHAR(100) NOT NULL COMMENT '更新时间',
@@ -98,16 +98,14 @@ module.exports={
     //订单表
     orders:`
         create table if not exists orders(
-            id varchar(36) NOT NULL COMMENT '订单ID',
-            order_no BIGINT(20) NOT NULL COMMENT '订单号',
+            id INT(11) NOT NULL AUTO_INCREMENT,
+            order_no varchar(36) NOT NULL COMMENT '订单号',
             user_id INT(11) NOT NULL COMMENT '用户ID',
             ship_id INT(11) NOT NULL COMMENT '收货地址ID',
             pay_money DECIMAL(10,2) NOT NULL COMMENT '实际付款金额 单位元 保留2位小数',
-            pay_type INT(4) DEFAULT 1 COMMENT '支付类型 1-默认线上支付',
+            pay_type INT(4) DEFAULT 1 COMMENT '支付类型  1-微信 2-支付宝',
             status INT(10) NOT NULL COMMENT '订单状态 0-已取消 1-未付款 2-已付款 3-已发货 4-交易成功 5-交易关闭',
             payment_time VARCHAR(100) NOT NULL COMMENT '支付时间',
-            send_time VARCHAR(100) NOT NULL COMMENT '发货时间',
-            end_time VARCHAR(100) NOT NULL COMMENT '交易完成时间',
             create_time VARCHAR(100) NOT NULL COMMENT '创建时间',
             update_time VARCHAR(100) NOT NULL COMMENT '更新时间',
             PRIMARY KEY ( id )
@@ -119,7 +117,7 @@ module.exports={
             id INT(11) NOT NULL AUTO_INCREMENT, 
             user_id INT(11) NOT NULL COMMENT '用户ID',
             order_id varchar(36) NOT NULL COMMENT '关联订单ID', 
-            order_no BIGINT(20) NOT NULL COMMENT '订单号',
+            order_no varchar(36) NOT NULL COMMENT '订单号',
             product_id INT(11) NOT NULL COMMENT '商品ID',
             product_name VARCHAR(100) NOT NULL COMMENT '商品名称',
             product_image VARCHAR(150) NOT NULL COMMENT '商品图片',
@@ -129,7 +127,7 @@ module.exports={
             create_time VARCHAR(100) NOT NULL COMMENT '创建时间',
             update_time VARCHAR(100) NOT NULL COMMENT '更新时间',
             PRIMARY KEY ( id )
-        )ENGINE=InnoDB AUTO_INCREMENT=100 CHARACTER SET utf8 COLLATE utf8_general_ci;
+        )ENGINE=InnoDB AUTO_INCREMENT=10000 CHARACTER SET utf8 COLLATE utf8_general_ci;
     `,
     //收藏表
     product_love:`

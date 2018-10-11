@@ -23,7 +23,6 @@ module.exports={
             _sql+=`checked=${checked},`
         }
         _sql+=`update_time='${time}' where user_id=${userId} and product_id in (${id})`
-        console.log(_sql)
         return query(_sql);
     },
     //删购物车

@@ -12,14 +12,14 @@ module.exports={
         let _sql;
         if(id){
             _sql=`update address set `;
-            if(phone){
+            if(name){
                 _sql+=`ship_name='${name}',`
             }
-            if(name){
-                _sql+=`ship_name=${phone},`
+            if(phone){
+                _sql+=`ship_phone=${phone},`
             }
             if(address){
-                _sql+=`ship_name='${address}',`
+                _sql+=`ship_address='${address}',`
             }
             if(checked===false){
                 _sql+=`checked=0,`
@@ -30,14 +30,13 @@ module.exports={
             _sql+=`update_time='${time}' where id=${id}`;
 
         }else{
-            _sql=`insert into address set user_id=${userId},ship_name=${name},ship_phone=${phone},ship_address=${address},create_time='${time}',checked=${checked}`;
+            _sql=`insert into address set user_id='${userId}',ship_name='${name}',ship_phone='${phone}',ship_address='${address}',create_time='${time}',checked=${checked}`;
         }
-        console.log(_sql);
+        console.log(_sql)
         return query(_sql);
     },
     updateAddress(userId){
         let _sql=`update address set checked=0 where user_id=${userId}`;
-        console.log(_sql)
         return query(_sql);
     },
     //删除地址

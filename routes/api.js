@@ -10,6 +10,7 @@ const Banners=require('./api/banner');
 const Sorts=require('./api/sort');
 const Shops=require('./api/shops');
 const getWeb=require('./api/web');
+const Order=require('./api/order');
 
 //上传文件配置
 let storage=multer.diskStorage({
@@ -105,6 +106,14 @@ router.get('/address/detail',Token.checkToken,getWeb.detailAddress);
 router.post('/address/delete',Token.checkToken,getWeb.delAddress);
 //提交地址
 router.post('/address/add',Token.checkToken,getWeb.addAddress);
+//创建订单
+router.post('/order/add',Token.checkToken,Order.addOrder);
+//获取订单列表
+router.get('/order/list',Token.checkToken,Order.getOrderList);
+//获取订单详情内容
+router.get('/order/detail',Token.checkToken,Order.getOrder);
+//更改订单状态
+router.post('/order/status',Token.checkToken,Order.updateOrderStatus);
 
 
 //上传文件

@@ -51,6 +51,17 @@ module.exports={
         }
         return query(_sql,values);
     },
+    //商品可售量变化 type:1加 2减
+    updateShopCount:(id,type,quantity)=>{
+        let _sql
+        if(type==1){
+            _sql=`update product set stock=stock+${quantity} where id=${id}`;
+        }else{
+            _sql=`update product set stock=stock-${quantity} where id=${id}`;
+        }
+        console.log(_sql)
+        return query(_sql);
+    },
     //商品数量
     shopsCount:(sort,recommend,status,onSale)=>{
         let _sql=`select count(*) as total from product where id > 0`;
