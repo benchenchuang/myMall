@@ -112,8 +112,10 @@ router.post('/order/add',Token.checkToken,Order.addOrder);
 router.get('/order/list',Token.checkToken,Order.getOrderList);
 //获取订单详情内容
 router.get('/order/detail',Token.checkToken,Order.getOrder);
-//更改订单状态
+//更改订单状态-付款
 router.post('/order/status',Token.checkToken,Order.updateOrderStatus);
+//删除订单
+router.post('/order/del',Token.checkToken,Order.delOrder);
 
 
 //上传文件

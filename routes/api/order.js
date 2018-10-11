@@ -166,6 +166,25 @@ module.exports={
         }else{
             await orderModel.updateOrderStatus(status,time,id);
         }
+    },
+    delOrder:async (ctx,next)=>{
+        let data=ctx.request.body;
+        let status=data.status;
+        let id=data.id;
+        let time=moment().format('YYYY-MM-DD HH:mm:ss');
+        await orderModel.updateOrderStatus(status,time,id).then(res=>{
+            if(res.affectedRows){
+                return ctx.body={
+                    status:2,
+                    data:'订单状态更改'
+                }
+            }else{
+                return ctx.body={
+                    status:1,
+                    data:'状态更改失败'
+                } 
+            }
+        })
     }
 };
 
