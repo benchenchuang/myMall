@@ -2,7 +2,7 @@
 
 # Node做的简约商城（部分功能没有）<br/><br/>
 
-> vue项目地址 https://github.com/benchenchuang/myMall
+> vue项目地址 https://github.com/benchenchuang/vueMall
 
 ## 登录（用户名+密码+验证码）
  <img src="./public/images/1.png"/><br/>
