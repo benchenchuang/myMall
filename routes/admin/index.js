@@ -1,7 +1,7 @@
 
 module.exports={
     getIndex:async (ctx,next)=>{
-        await ctx.render('./index', {
+        await ctx.render('index', {
             title: 'Hello Koa 2!',
             index:1,
             user:ctx.session.user
