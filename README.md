@@ -18,6 +18,8 @@
  <img src="./public/images/6.png"/><br/>
 ## 用户（查看、添加、删除等操作）
  <img src="./public/images/7.png"/><br/>
+## 压力测试（测了一个订单列表接口）
+ <img src="./public/images/8.png"/><br/>
  
 
 ### days_01 初始化项目及数据表结构
